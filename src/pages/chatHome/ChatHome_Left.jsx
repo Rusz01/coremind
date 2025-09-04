@@ -10,12 +10,12 @@ import { CgMonday } from "react-icons/cg";
 import coreMind_landscape from '/coreMind_landscape.png'
 
 
-function ChatHome_Left() {
+function ChatHome_Left({ setSidePanel }) {
   return (
    <div >
       <div className="flex justify-between items-center">
-        <RxHamburgerMenu className='w-8 h-8' />
-  
+        <RxHamburgerMenu className='w-8 h-8' onClick={() => setSidePanel(false)} />
+
         <BsPersonSquare className='w-8 h-8' />
       </div>
 
