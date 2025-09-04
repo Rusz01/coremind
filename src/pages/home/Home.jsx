@@ -10,6 +10,7 @@ import { HiUpload } from "react-icons/hi";
 import { RxHamburgerMenu } from "react-icons/rx";
 
 import company_logo from '../../assets/company_logos/company_logo'
+import Testimonial from './Testimonial'
 
 
 
@@ -39,7 +40,7 @@ function Home() {
 
       <h2 className='text-4xl font-medium mt-15 mb-5'>Trusted Integrations</h2>
 
-        <div className="flex overflow-hidden shadow-custom-blue shadow-xl/10 md:p-5 rounded-2xl "> 
+        <div className="flex overflow-hidden md:p-5  mb-15"> 
           <div className="auto-scroll flex justify-around">
           {company_logo.map((data, index) => (
             <ImageSlider key={index} imgLink={data.img} imgAlt={data.alt} />
@@ -47,8 +48,7 @@ function Home() {
           </div>
         </div>
 
-
-        
+        <Testimonial />
 
 
     </div>

@@ -16,8 +16,8 @@ function Home_Top() {
          <h1 className='text-6xl font-medium mb-5'>TURN CONVERSATIONS INTO SMART ACTIONS</h1>
          <p className='mb-5'>AI- powered document management, search and editing across local and cloud platforms.</p>
          <div>
-            <button className='bg-custom-blue py-2 px-8 rounded-2xl mr-5'>Sign Up</button>
-            <button className='border border-custom-white py-2 px-8 rounded-2xl'>Connect Account</button>
+            <button className='bg-custom-blue py-2 px-8 rounded-2xl mr-5 transition-all duration-200 hover:scale-105 hover:cursor-pointer'>Sign Up</button>
+            <button className='border border-custom-white py-2 px-8 rounded-2xl transition-all duration-200 hover:scale-105 hover:cursor-pointer'>Connect Account</button>
          </div>
       </div>
       <div className="w-140">
