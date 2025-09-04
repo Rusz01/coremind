@@ -19,7 +19,7 @@ const router = createBrowserRouter(
       <>
         
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/auth/:mode" element={<Login />} />
 
       </>
     )
