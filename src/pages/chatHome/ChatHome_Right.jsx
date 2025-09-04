@@ -1,8 +1,6 @@
 import React from 'react'
 import { IoSearch } from "react-icons/io5";
-import { Border_Card } from '../../components';
-import { FiSend } from "react-icons/fi";
-import TextArea from './Textarea';
+import ChatTextArea from './ChatTextArea';
 
 function ChatHome_Right() {
   return (
@@ -13,15 +11,8 @@ function ChatHome_Right() {
       <div className="flex flex-col justify-center items-center h-[90vh]">
          <h2 className='text-4xl'>How Can I help with?</h2>
          <div className="w-3/5 mt-10">
-            <Border_Card>
-               <div className='overflow-y-auto'>
-            <div className="flex items-end justify-between text-lg px-2">
-               <TextArea />
-               <FiSend className='cursor-pointer w-6 h-6' />
-            </div>
-            </div>
-            </Border_Card>
-            
+            <ChatTextArea />
+
          </div>
       </div>
    </div>
