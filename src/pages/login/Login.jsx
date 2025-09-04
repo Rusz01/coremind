@@ -7,7 +7,7 @@ import google from '../../assets/company_logos/google.svg'
 import microsoft from '../../assets/company_logos/microsoft.svg'
 
 function Login() {
-  const { mode } = useParams();           // "Login" or "Register"
+  const { mode } = useParams();      
   const navigate = useNavigate();
 
   return (
