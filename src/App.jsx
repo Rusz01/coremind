@@ -5,7 +5,7 @@ function App() {
 
 
   return (
-    <div className="lg:px-40 lg:max-w-400 mx-auto">
+    <div className="lg:px-40 lg:max-w-400 mx-auto py-10">
       <Home />
     </div>
   )

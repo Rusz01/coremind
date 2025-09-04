@@ -3,7 +3,7 @@ import coreMind_landscape from '/coreMind_landscape.png'
 
 function Header() {
   return (
-    <div className='flex justify-between items-center my-8 '>
+    <div className='flex justify-between items-center'>
       <img src={coreMind_landscape} alt="Coremind Logo" className='w-70'/>
       <ul className='flex space-x-8 text-3xl items-center'>
          <li>Docs</li>

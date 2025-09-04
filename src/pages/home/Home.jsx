@@ -6,6 +6,8 @@ import HowItWorks from './HowItWorks'
 import { FaQuestion } from "react-icons/fa6";
 import { FaPen } from "react-icons/fa";
 import { IoMdTimer } from "react-icons/io";
+import { HiUpload } from "react-icons/hi";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 
 
@@ -24,7 +26,14 @@ function Home() {
       </div>
 
       <h2 className='text-4xl font-medium mt-15 mb-10'>How It Works</h2>
-      <HowItWorks />
+      <div className="flex justify-around">
+        <HowItWorks icon={HiUpload} title="Connect Files" />
+        <HowItWorks icon={FaQuestion} title="Ask Questions" />
+        <HowItWorks icon={RxHamburgerMenu} title="Get Smart Results" />
+      </div>
+
+      <hr className="border-t border-custom-blue my-15" />
+
     </div>
   )
 }
