@@ -1,14 +1,17 @@
 import React, {useState} from 'react'
 import { Border_Card, Header } from '../../components'
 import Other_Login from './Other_Login'
+import { useLocation } from "react-router-dom";
 
 import google from '../../assets/company_logos/google.svg'
 import microsoft from '../../assets/company_logos/microsoft.svg'
 
 
-function Register() {
+function Login() {
+ const location = useLocation();
+  const mode = location.state?.mode || "Login";
 
-   const [login, setLogin] = useState(false);
+   const [loginState, setLoginState] = useState( mode );
 
   return (
     <div className='pt-10 lg:px-40 lg:max-w-400 mx-auto'>
@@ -19,17 +22,37 @@ function Register() {
       <div className="md:w-150 ">
       <Border_Card>
          <div className="px-5 py-5">
-            <h2 className='text-4xl text-center font-medium mb-10'>Login</h2>
+            <h2 className='text-4xl text-center font-medium mb-10'>{loginState}</h2>
             <form className='mt-5 flex flex-col justify-center items-center text-xl'>
+
+               {loginState === 'Register' ?  <input type="text" placeholder="Full Name" className='border border-custom-blue rounded-xl p-2 px-4 w-full mb-6 text-white' /> : <></>}
                
-               <input type="text" placeholder="Full Name" className='border border-custom-blue rounded-xl p-2 px-4 w-full mb-6 text-white' />
+
                <input type="email" placeholder="Email" className='border border-custom-blue rounded-xl p-2 px-4 w-full mb-6 text-white' />
                <input type="password" placeholder="Password" className='border border-custom-blue rounded-xl p-2 px-4 w-full mb-8 text-white' />
-               <button type="submit" className='bg-blue-500 text-white p-2 w-50 rounded-4xl cursor-pointer hover:scale-105 transition-transform duration-200'>Register</button>
+               <button type="submit" className='bg-blue-500 text-white p-2 w-50 rounded-4xl cursor-pointer hover:scale-105 transition-transform duration-200'>{loginState}</button>
             </form>
 
+  
+
+
+               {loginState === 'Login' ? 
+               <>
+
                <p className='text-accent-blue text-center text-xl mt-8 font-semibold cursor-pointer hover:scale-105 transition-transform duration-200'><a href="#"> Forgot Password?</a></p>
-               <p className='text-center text-white text-xl mt-5'>Don't have an account?<a href="#" className='text-accent-blue font-semibold cursor-pointer hover:scale-105 transition-transform duration-200'> Register Now</a></p>
+
+                <p className='text-center text-white text-xl mt-5'>Don't have an account? <span 
+                onClick={() => setLoginState('Register')}
+                className='text-accent-blue font-semibold cursor-pointer hover:scale-105 transition-transform duration-200'>
+                Register Now</span></p> 
+                </> :
+                 
+               <p className='text-center text-white text-xl mt-5'>Already have an account? <span 
+                onClick={() => setLoginState('Login')}
+                className='text-accent-blue font-semibold cursor-pointer hover:scale-105 transition-transform duration-200'>
+                Login Now</span></p> 
+               }
+
                
 
             <div className="flex items-center justify-center mt-5 mb-7">
@@ -62,4 +85,4 @@ function Register() {
   )
 }
 
-export default Register
+export default Login

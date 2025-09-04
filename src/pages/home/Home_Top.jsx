@@ -6,9 +6,12 @@ import { IoSearch } from "react-icons/io5";
 import { MdEditDocument } from "react-icons/md";
 import { HiOutlineBars3BottomLeft } from "react-icons/hi2";
 import { FaSuitcase } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 // ...existing code...
 function Home_Top() {
+  const navigate = useNavigate();
+
   return (
    <>
     <div className='grid grid-cols-2 gap-6 items-center mt-10 p-5'>
@@ -16,7 +19,7 @@ function Home_Top() {
          <h1 className='text-6xl font-medium mb-5'>TURN CONVERSATIONS INTO SMART ACTIONS</h1>
          <p className='mb-5'>AI- powered document management, search and editing across local and cloud platforms.</p>
          <div>
-            <button className='bg-custom-blue py-2 px-8 rounded-2xl mr-5 transition-all duration-200 hover:scale-105 hover:cursor-pointer'>Sign Up</button>
+            <button  onClick={() => navigate("/login", { state: { mode: "Register" } })}  className='bg-custom-blue py-2 px-8 rounded-2xl mr-5 transition-all duration-200 hover:scale-105 hover:cursor-pointer'>Sign Up</button>
             <button className='border border-custom-white py-2 px-8 rounded-2xl transition-all duration-200 hover:scale-105 hover:cursor-pointer'>Connect Account</button>
          </div>
       </div>
