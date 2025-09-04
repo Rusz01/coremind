@@ -1,5 +1,5 @@
 import React from 'react'
-import {Header, ImageSlider} from '../../components'
+import {Header, ImageSlider, Footer} from '../../components'
 import Home_Top from './Home_Top'
 import Key_Features from './Key_Features'
 import HowItWorks from './HowItWorks'
@@ -16,7 +16,8 @@ import Testimonial from './Testimonial'
 
 function Home() {
   return (
-    <div>
+   <>
+    <div className='pt-10 lg:px-40 lg:max-w-400 mx-auto'>
       <Header />
       <Home_Top />
 
@@ -50,8 +51,9 @@ function Home() {
 
         <Testimonial />
 
-
     </div>
+         <Footer />
+    </>
   )
 }
 
