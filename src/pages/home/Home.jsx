@@ -1,5 +1,5 @@
 import React from 'react'
-import {Header} from '../../components'
+import {Header, ImageSlider} from '../../components'
 import Home_Top from './Home_Top'
 import Key_Features from './Key_Features'
 import HowItWorks from './HowItWorks'
@@ -8,6 +8,8 @@ import { FaPen } from "react-icons/fa";
 import { IoMdTimer } from "react-icons/io";
 import { HiUpload } from "react-icons/hi";
 import { RxHamburgerMenu } from "react-icons/rx";
+
+import company_logo from '../../assets/company_logos/company_logo'
 
 
 
@@ -33,6 +35,21 @@ function Home() {
       </div>
 
       <hr className="border-t border-custom-blue my-15" />
+
+
+      <h2 className='text-4xl font-medium mt-15 mb-5'>Trusted Integrations</h2>
+
+        <div className="flex overflow-hidden shadow-custom-blue shadow-xl/10 md:p-5 rounded-2xl "> 
+          <div className="auto-scroll flex justify-around">
+          {company_logo.map((data, index) => (
+            <ImageSlider key={index} imgLink={data.img} imgAlt={data.alt} />
+          ))}
+          </div>
+        </div>
+
+
+        
+
 
     </div>
   )
