@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate, useLocation } from 'react-router-dom';
 import { RxHamburgerMenu } from "react-icons/rx";
 import { BsPersonSquare } from "react-icons/bs";
 import { IoAddCircleOutline } from "react-icons/io5";
@@ -10,13 +11,25 @@ import { CgMonday } from "react-icons/cg";
 import coreMind_landscape from '/coreMind_landscape.png'
 
 
-function ChatHome_Left({ setSidePanel }) {
+function ChatHome_Left({ setSidePanel, setProfile }) {
+    const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleProfileClick = () => {
+    setProfile(true);
+
+    const newPath = `${location.pathname.replace(/\/$/, '')}/profile`;
+    navigate(newPath);
+  };
   return (
    <div >
       <div className="flex justify-between items-center">
-        <RxHamburgerMenu className='w-8 h-8' onClick={() => setSidePanel(false)} />
+        <RxHamburgerMenu className='w-8 h-8 cursor-pointer' onClick={() => setSidePanel(false)} />
 
-        <BsPersonSquare className='w-8 h-8' />
+      <BsPersonSquare 
+        className="w-8 h-8 cursor-pointer" 
+        onClick={handleProfileClick} 
+      />
       </div>
 
       <div className='mt-8'>

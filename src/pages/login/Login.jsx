@@ -31,7 +31,7 @@ function Login() {
 
                 <input type="email" placeholder="Email" className='border border-custom-blue rounded-xl p-2 px-4 w-full mb-6 text-white' />
                 <input type="password" placeholder="Password" className='border border-custom-blue rounded-xl p-2 px-4 w-full mb-8 text-white' />
-                <button type="submit" className='bg-blue-500 text-white p-2 w-50 rounded-4xl cursor-pointer hover:scale-105 transition-transform duration-200'>
+                <button onClick={() => navigate('/chat')} type="submit" className='bg-blue-500 text-white p-2 w-50 rounded-4xl cursor-pointer hover:scale-105 transition-transform duration-200'>
                   {mode}
                 </button>
               </form>
