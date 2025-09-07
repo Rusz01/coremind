@@ -12,16 +12,10 @@ import { IoSearch } from "react-icons/io5";
 import coreMind_landscape from '/coreMind_landscape.png'
 
 
-function ChatHome_Left({ setSidePanel, setProfile }) {
-    const navigate = useNavigate();
-  const location = useLocation();
+function ChatHome_Left({ setSidePanel }) {
+    const navigate = useNavigate(); 
 
-  // const handleProfileClick = () => {
-  //   setProfile(true);
 
-  //   const newPath = `${location.pathname.replace(/\/$/, '')}/profile`;
-  //   navigate(newPath);
-  // };
   return (
    <div >
       <div className="flex justify-between items-center">

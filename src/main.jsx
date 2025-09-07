@@ -13,6 +13,7 @@ import Home from './pages/home/Home'
 import Login from './pages/login/Login';
 import ChatHome from './pages/chatHome/chatHome';
 import Profile from './pages/chatHome/profile/Profile';
+import AllSettings from './pages/chatHome/allSettings/AllSettings';
 
 
 const router = createBrowserRouter(
@@ -25,6 +26,7 @@ const router = createBrowserRouter(
         <Route path="/auth/:mode" element={<Login />} />
         <Route path="/chat/*" element={<ChatHome />}>
           <Route path="profile" element={<Profile />} />
+          <Route path="allSettings" element={<AllSettings />} />
         </Route>
 
       </>
