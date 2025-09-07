@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Border_Card } from '../../../components'
 import { RxCross2 } from "react-icons/rx";
 import { FaGoogle } from "react-icons/fa";
@@ -6,10 +6,14 @@ import { FaGoogleDrive } from "react-icons/fa";
 import { SiNotion } from "react-icons/si";
 import { GrOnedrive } from "react-icons/gr";
 import { CgMonday } from "react-icons/cg";
+import AllSettings from '../allSettings/AllSettings';
 
    function Profile({ setProfile }) {
+      const [allSettings, setAllSettings] = useState(false);
    return (
       <div className='z-100'>
+
+         {!allSettings && (
          <Border_Card>
             {/* <RxCross2 className='cursor-pointer w-8 h-8' onClick={() => setProfile(false)} /> */}
             <div className='w-150  pt-5 px-30 flex flex-col items-center gap-6 text-xl text-white'>
@@ -22,7 +26,7 @@ import { CgMonday } from "react-icons/cg";
                   <p className='py-1 px-1'>Email: rusz.baidhya@example.com</p>
                   <p className='py-1 px-1'>Number: 0123456789</p>
                </div>
-               <button className='bg-primary-blue text-custom-white underline underline-offset-3 transition mt-5'>View All Settings</button>
+               <button className='bg-primary-blue text-custom-white underline underline-offset-3 transition mt-5 cursor-pointer' onClick={() => setAllSettings(true)}>View All Settings</button>
                <div className="flex justify-between w-full items-center">
                   <p>Delete all Chats:</p>
                   <button className='bg-red-500 px-6 py-1 rounded-2xl'>Delete</button>
@@ -44,6 +48,12 @@ import { CgMonday } from "react-icons/cg";
                <p className='mt-5'>&copy; {new Date().getFullYear()} CoreMind. All rights reserved.</p>
             </div>
          </Border_Card>
+         )}
+
+
+         {allSettings && (
+            <AllSettings />
+         )}
       </div>
    )
    }

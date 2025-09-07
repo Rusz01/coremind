@@ -1,5 +1,5 @@
 import React from 'react'
-import { IoSearch } from "react-icons/io5";
+
 import ChatTextArea from './ChatTextArea';
 import { RxHamburgerMenu } from "react-icons/rx";
 
@@ -18,7 +18,6 @@ return (
       </div>
 
 
-      <IoSearch className="w-8 h-8 cursor-pointer mr-10" />
     </div>
 
     <div className="flex flex-col justify-center items-center h-[85vh]">

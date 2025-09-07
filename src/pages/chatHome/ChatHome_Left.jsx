@@ -7,6 +7,7 @@ import { FaGoogleDrive } from "react-icons/fa";
 import { SiNotion } from "react-icons/si";
 import { GrOnedrive } from "react-icons/gr";
 import { CgMonday } from "react-icons/cg";
+import { IoSearch } from "react-icons/io5";
 
 import coreMind_landscape from '/coreMind_landscape.png'
 
@@ -15,21 +16,23 @@ function ChatHome_Left({ setSidePanel, setProfile }) {
     const navigate = useNavigate();
   const location = useLocation();
 
-  const handleProfileClick = () => {
-    setProfile(true);
+  // const handleProfileClick = () => {
+  //   setProfile(true);
 
-    const newPath = `${location.pathname.replace(/\/$/, '')}/profile`;
-    navigate(newPath);
-  };
+  //   const newPath = `${location.pathname.replace(/\/$/, '')}/profile`;
+  //   navigate(newPath);
+  // };
   return (
    <div >
       <div className="flex justify-between items-center">
         <RxHamburgerMenu className='w-8 h-8 cursor-pointer' onClick={() => setSidePanel(false)} />
 
-      <BsPersonSquare 
-        className="w-8 h-8 cursor-pointer" 
-        onClick={handleProfileClick} 
-      />
+      <div className='flex items-center gap-4'>
+        <BsPersonSquare className="w-8 h-8 cursor-pointer" onClick={() => navigate("/chat/profile")} />
+
+      <IoSearch className="w-8 h-8 cursor-pointer" />
+      </div>
+
       </div>
 
       <div className='mt-8'>

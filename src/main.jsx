@@ -12,6 +12,7 @@ import {
 import Home from './pages/home/Home'
 import Login from './pages/login/Login';
 import ChatHome from './pages/chatHome/chatHome';
+import Profile from './pages/chatHome/profile/Profile';
 
 
 const router = createBrowserRouter(
@@ -23,7 +24,7 @@ const router = createBrowserRouter(
         <Route path="/auth/:mode" element={<Login />} />
         <Route path="/auth/:mode" element={<Login />} />
         <Route path="/chat/*" element={<ChatHome />}>
-          <Route path="*" element={<ChatHome />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
 
       </>
