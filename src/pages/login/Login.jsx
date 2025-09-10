@@ -1,12 +1,56 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { Border_Card, Header } from '../../components'
 import Other_Login from './Other_Login'
 import { useParams, useNavigate } from "react-router-dom";
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../firebase/firebase';
+
 
 import google from '../../assets/company_logos/google.svg'
 import microsoft from '../../assets/company_logos/microsoft.svg'
 
 function Login() {
+
+  // Firebase Authentication
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [msg, setMsg] = useState('');
+
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    try{
+      await createUserWithEmailAndPassword(auth, email, password, fullName);
+      setMsg('User created successfully!');
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+      setMsg(errorMessage);
+    }
+  };
+
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message; 
+        console.log(errorCode, errorMessage);
+        setMsg(errorMessage);
+      });
+  };
+
+
+  // Login or Register
+
   const { mode } = useParams();      
   const navigate = useNavigate();
 
@@ -20,17 +64,29 @@ function Login() {
             <div className="px-5 py-5">
               <h2 className='text-4xl text-center font-medium mb-10'>{mode}</h2>
 
-              <form className='mt-5 flex flex-col justify-center items-center text-xl'>
+              <form className='mt-5 flex flex-col justify-center items-center text-xl' onSubmit={mode === 'Register' ? handleSignUp : handleLogin}>
                 {mode === 'Register' && (
                   <input
                     type="text"
                     placeholder="Full Name"
                     className='border border-custom-blue rounded-xl p-2 px-4 w-full mb-6 text-white'
+                    onChange={(e) => setFullName(e.target.value)}
                   />
                 )}
 
-                <input type="email" placeholder="Email" className='border border-custom-blue rounded-xl p-2 px-4 w-full mb-6 text-white' />
-                <input type="password" placeholder="Password" className='border border-custom-blue rounded-xl p-2 px-4 w-full mb-8 text-white' />
+                <input
+                  type="email"
+                  placeholder="Email"
+                  className='border border-custom-blue rounded-xl p-2 px-4 w-full mb-6 text-white'
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+
+                <input
+                  type="password"
+                  placeholder="Password"
+                  className='border border-custom-blue rounded-xl p-2 px-4 w-full mb-8 text-white'
+                  onChange={(e) => setPassword(e.target.value)}
+                />
                 <button onClick={() => navigate('/chat')} type="submit" className='bg-blue-500 text-white p-2 w-50 rounded-4xl cursor-pointer hover:scale-105 transition-transform duration-200'>
                   {mode}
                 </button>
