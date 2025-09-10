@@ -11,9 +11,9 @@ function ChatHome() {
 
   const handleProfileClick = () => {
     if (location.key !== 'default') {
-      navigate(-1); // go back in history
+      navigate(-1); 
     } else {
-      navigate('/chat'); // fallback if no history
+      navigate('/chat'); 
     }
   };
 
@@ -21,7 +21,7 @@ const isProfileRoute = location.pathname.startsWith('/chat/');
 
   return (
     <div className="flex h-screen overflow-hidden">
-      {/* Left panel with slide transition */}
+
       <div
         className={`bg-secondary-blue p-6 overflow-y-auto relative transform transition-all duration-300 
         ${sidePanel ? 'translate-x-0 w-1/5' : '-translate-x-full w-0'}`}
@@ -34,7 +34,6 @@ const isProfileRoute = location.pathname.startsWith('/chat/');
         </div>
       </div>
 
-      {/* Profile overlay (only when route is /chat/profile) */}
       {isProfileRoute && (
         <div
           className="absolute inset-0 z-50 flex justify-center items-center bg-secondary-blue/30 backdrop-blur-[2px]"
@@ -46,7 +45,6 @@ const isProfileRoute = location.pathname.startsWith('/chat/');
         </div>
       )}
 
-      {/* Right panel */}
       <div className="flex-1 p-6 overflow-y-auto">
         <ChatHome_Right sidePanel={sidePanel} setSidePanel={setSidePanel} />
       </div>
