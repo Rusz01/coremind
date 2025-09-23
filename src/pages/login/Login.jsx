@@ -12,8 +12,6 @@ import { auth } from "../../firebase/firebase";
 
 import google from "../../assets/company_logos/google.svg";
 import microsoft from "../../assets/company_logos/microsoft.svg";
-
-// ⬇️ bring in your Alert component
 import Alert from "../../components/Alert";
 
 function Login() {
@@ -39,7 +37,7 @@ function Login() {
     return () => unsubscribe();
   }, []);
 
-  // quick client-side validation
+  // validations
   const emailValid = useMemo(() => /\S+@\S+\.\S+/.test(email), [email]);
   const passwordValid = useMemo(() => password.length >= 6, [password]);
   const fullNameValid = useMemo(
@@ -47,6 +45,12 @@ function Login() {
     [mode, fullName]
   );
   const formValid = emailValid && passwordValid && fullNameValid;
+
+  // show errors only after typing
+  const emailInvalid = email.length > 0 && !emailValid;
+  const passwordInvalid = password.length > 0 && !passwordValid;
+  const fullNameInvalid =
+    mode === "Register" && fullName.trim().length > 0 && fullName.trim().length < 2;
 
   const alertClass = useMemo(() => {
     if (alertVariant === "success") return "border-green-300 bg-green-50 text-green-800";
@@ -73,8 +77,7 @@ function Login() {
       const cred = await createUserWithEmailAndPassword(auth, email, password);
       if (fullName) await updateProfile(cred.user, { displayName: fullName });
       popAlert("Account created", "Welcome to CoreMind!", "success");
-      // brief pause so the success alert is visible
-      setTimeout(() => navigate("/auth/Register"), 800);
+      setTimeout(() => navigate("/auth/Register"), 800); // adjust if you prefer /auth/Login or /chat
     } catch (error) {
       popAlert("Sign up failed", error?.message || "Something went wrong.", "error");
     } finally {
@@ -117,7 +120,7 @@ function Login() {
 
       <div className="flex justify-center items-center mt-16 px-4">
         <div className="w-full max-w-xl">
-          {/* Upgraded card look (soft glass) */}
+          {/* Glass card */}
           <div className="relative rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl">
             <div className="absolute -top-6 left-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-1.5 text-sm">
               <span className="inline-block h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
@@ -137,8 +140,14 @@ function Login() {
                 {mode === "Register" && (
                   <div className="space-y-2">
                     <label className="block text-sm text-white/80">Full name</label>
-                    <div className={`flex items-center gap-3 rounded-2xl border px-4 py-3 bg-white/5 ${fullNameValid ? "border-white/10" : "border-red-400/60"}`}>
-                      <svg className="h-5 w-5 opacity-80" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5Zm0 2c-4 0-8 2-8 6v2h16v-2c0-4-4-6-8-6Z"/></svg>
+                    <div
+                      className={`flex items-center gap-3 rounded-2xl border px-4 py-3 bg-white/5 ${
+                        fullNameInvalid ? "border-red-400/60" : "border-white/10"
+                      }`}
+                    >
+                      <svg className="h-5 w-5 opacity-80" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5Zm0 2c-4 0-8 2-8 6v2h16v-2c0-4-4-6-8-6Z" />
+                      </svg>
                       <input
                         type="text"
                         placeholder="Jane Doe"
@@ -146,14 +155,22 @@ function Login() {
                         onChange={(e) => setFullName(e.target.value)}
                       />
                     </div>
-                    {!fullNameValid && <p className="text-xs text-red-300">Please enter at least 2 characters.</p>}
+                    {fullNameInvalid && (
+                      <p className="text-xs text-red-300">Please enter at least 2 characters.</p>
+                    )}
                   </div>
                 )}
 
                 <div className="space-y-2">
                   <label className="block text-sm text-white/80">Email</label>
-                  <div className={`flex items-center gap-3 rounded-2xl border px-4 py-3 bg-white/5 ${emailValid ? "border-white/10" : "border-red-400/60"}`}>
-                    <svg className="h-5 w-5 opacity-80" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v1l10 6 10-6V6c0-1.1-.9-2-2-2Zm0 6.3-8.5 5.1c-.3.2-.7.2-1 0L2 10.3V18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-7.7Z"/></svg>
+                  <div
+                    className={`flex items-center gap-3 rounded-2xl border px-4 py-3 bg-white/5 ${
+                      emailInvalid ? "border-red-400/60" : "border-white/10"
+                    }`}
+                  >
+                    <svg className="h-5 w-5 opacity-80" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M20 4H4c-1.1 0-2 .9-2 2v1l10 6 10-6V6c0-1.1-.9-2-2-2Zm0 6.3-8.5 5.1c-.3.2-.7.2-1 0L2 10.3V18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-7.7Z" />
+                    </svg>
                     <input
                       type="email"
                       placeholder="you@company.com"
@@ -161,13 +178,21 @@ function Login() {
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
-                  {!emailValid && <p className="text-xs text-red-300">Enter a valid email address.</p>}
+                  {emailInvalid && (
+                    <p className="text-xs text-red-300">Enter a valid email address.</p>
+                  )}
                 </div>
 
                 <div className="space-y-2">
                   <label className="block text-sm text-white/80">Password</label>
-                  <div className={`flex items-center gap-3 rounded-2xl border px-4 py-3 bg-white/5 ${passwordValid ? "border-white/10" : "border-red-400/60"}`}>
-                    <svg className="h-5 w-5 opacity-80" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a5 5 0 00-5 5v3H6a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2v-8a2 2 0 00-2-2h-1V6a5 5 0 00-5-5Zm-3 8V6a3 3 0 016 0v3H9Z"/></svg>
+                  <div
+                    className={`flex items-center gap-3 rounded-2xl border px-4 py-3 bg-white/5 ${
+                      passwordInvalid ? "border-red-400/60" : "border-white/10"
+                    }`}
+                  >
+                    <svg className="h-5 w-5 opacity-80" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 1a5 5 0 00-5 5v3H6a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2v-8a2 2 0 00-2-2h-1V6a5 5 0 00-5-5Zm-3 8V6a3 3 0 016 0v3H9Z" />
+                    </svg>
                     <input
                       type={showPw ? "text" : "password"}
                       placeholder="••••••••"
@@ -183,16 +208,18 @@ function Login() {
                       {showPw ? "Hide" : "Show"}
                     </button>
                   </div>
-                  {!passwordValid && <p className="text-xs text-red-300">Use at least 6 characters.</p>}
+                  {passwordInvalid && (
+                    <p className="text-xs text-red-300">Use at least 6 characters.</p>
+                  )}
                 </div>
 
                 <button
                   type="submit"
                   disabled={busy || !formValid}
                   className={`mt-2 inline-flex items-center justify-center gap-2 rounded-2xl px-6 py-3 font-medium transition
-                              ${busy || !formValid
-                                ? "bg-accent-blue/50 cursor-not-allowed"
-                                : "bg-accent-blue hover:brightness-110 active:brightness-125"}`}
+                    ${busy || !formValid
+                      ? "bg-accent-blue/50 cursor-not-allowed"
+                      : "bg-accent-blue hover:brightness-110 active:brightness-125"}`}
                 >
                   {busy && (
                     <svg className="h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none">
@@ -204,11 +231,13 @@ function Login() {
                 </button>
               </form>
 
-              {/* small helper / routes */}
+              {/* helpers / routes */}
               {mode === "Login" ? (
                 <>
                   <p className="text-accent-blue text-center text-sm sm:text-base mt-6 font-semibold">
-                    <a href="/forgot" className="hover:underline">Forgot password?</a>
+                    <a href="/forgot" className="hover:underline">
+                      Forgot password?
+                    </a>
                   </p>
                   <p className="text-center text-sm sm:text-base mt-3">
                     Don&apos;t have an account?{" "}
