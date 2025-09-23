@@ -1,16 +1,26 @@
-import React from 'react'
+import React from "react";
 
 function Border_Card({ children }) {
   return (
     <div
-      className='relative rounded-4xl bg-primary-blue p-10
-        before:absolute before:inset-0 before:rounded-4xl before:border-[20px] before:border-secondary-blue before:pointer-events-none before:z-0
-        after:absolute after:inset-5 after:rounded-xl after:border after:border-custom-white after:pointer-events-none after:z-0
-        shadow-[10px_10px_30px_5px_rgba(59,130,246,0.5)]'
+      className="
+        relative rounded-3xl overflow-hidden
+        bg-white/10 backdrop-blur-xl
+        border border-white/20
+        shadow-[0_8px_32px_0_rgba(31,38,135,0.37)]
+        transition-all duration-300
+        hover:scale-[1.02] hover:shadow-[0_12px_45px_rgba(0,0,0,0.4)]
+      "
     >
-      <div className="relative z-10">{children}</div>
+      {/* glowing gradient border effect */}
+      <div className="absolute inset-0 rounded-3xl p-[2px]  blur-[2px]" />
+
+      {/* inner content */}
+      <div className="relative z-10 p-8">
+        {children}
+      </div>
     </div>
-  )
+  );
 }
 
-export default Border_Card
+export default Border_Card;

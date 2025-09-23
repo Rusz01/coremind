@@ -4,6 +4,7 @@ import Key_Element from '../pages/home/Key_Element'
 import Border_Light from './Border_Light'
 import ImageSlider from './ImageSlider'
 import Footer from './Footer'
+import Alert from './Alert'
 
 export { 
    Header,
@@ -12,5 +13,5 @@ export {
    ImageSlider,
    Border_Light,
    Footer,
-   
+   Alert
 }
