@@ -1,34 +1,37 @@
-import React from 'react'
-
-import ChatTextArea from './ChatTextArea';
+import React from "react";
+import ChatTextArea from "./ChatTextArea";
 import { RxHamburgerMenu } from "react-icons/rx";
 
 function ChatHome_Right({ sidePanel, setSidePanel }) {
-return (
-  <div className="">
-    <div className="flex items-center justify-between pt-8">
-
-      <div>
+  return (
+    <div className="flex flex-col h-full">
+      {/* Top bar */}
+      <div className="flex items-center justify-between">
         {!sidePanel && (
-          <RxHamburgerMenu
-            className="w-8 h-8 cursor-pointer"
+          <button
+            className="md:hidden inline-flex items-center justify-center rounded-xl p-2 text-white/80 hover:text-white hover:bg-white/10"
             onClick={() => setSidePanel(true)}
-          />
+            aria-label="Open sidebar"
+          >
+            <RxHamburgerMenu className="w-7 h-7" />
+          </button>
         )}
+        <div />
       </div>
 
+      {/* Empty state */}
+      <div className="flex-1 flex flex-col items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-3xl md:text-4xl font-semibold">How can I help?</h2>
+          <p className="mt-2 text-white/70">Ask about files, decisions, or summaries.</p>
+        </div>
 
-    </div>
-
-    <div className="flex flex-col justify-center items-center h-[85vh]">
-      <h2 className="text-4xl">How Can I help with?</h2>
-      <div className="w-3/5 mt-10">
-        <ChatTextArea />
+        <div className="w-full max-w-3xl mt-8">
+          <ChatTextArea />
+        </div>
       </div>
     </div>
-  </div>
-);
-
+  );
 }
 
-export default ChatHome_Right
+export default ChatHome_Right;
