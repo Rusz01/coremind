@@ -16,7 +16,7 @@ function ChatHome() {
   const isProfileRoute = location.pathname.startsWith("/chat/");
 
   return (
-    <div className="relative flex h-screen overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-black text-white">
+    <div className="relative flex h-screen overflow-hidden text-white">
       {/* Sidebar */}
       <aside
         className={`
@@ -42,10 +42,10 @@ function ChatHome() {
         />
       )}
 
-      {/* Profile modal overlay (kept from your logic) */}
+      {/* Profile modal overlay (more opaque now) */}
       {isProfileRoute && (
         <div
-          className="absolute inset-0 z-50 flex justify-center items-center bg-secondary-blue/30 backdrop-blur-[2px]"
+          className="absolute inset-0 z-50 flex justify-center items-center bg-black/60 backdrop-blur-md"
           onClick={handleProfileClick}
         >
           <div onClick={(e) => e.stopPropagation()}>

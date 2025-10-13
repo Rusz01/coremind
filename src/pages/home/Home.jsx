@@ -17,7 +17,7 @@ import Testimonial from './Testimonial'
 function Home() {
   return (
    <>
-    <div className='pt-10 lg:px-40 lg:max-w-400 mx-auto'>
+    <div className='pt-10 lg:px-40 lg:max-w-400 mx-auto '>
       <Header />
       <Home_Top />
 

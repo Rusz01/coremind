@@ -9,7 +9,7 @@ import {
 
 import Home from './pages/home/Home'
 import Login from './pages/login/Login';
-import ChatHome from './pages/chatHome/chatHome';
+import ChatHome from './pages/chatHome/ChatHome';
 import Profile from './pages/chatHome/profile/Profile';
 import AllSettings from './pages/chatHome/allSettings/AllSettings';
 
@@ -33,7 +33,7 @@ function App() {
 
 
   return (
-    <div className="">
+    <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-black">
           <RouterProvider router={router} />  
     </div>
   )

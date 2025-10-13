@@ -25,7 +25,7 @@ function Home_Top() {
       </div>
       <div className="w-140">
          <Border_Card >
-            <div className="flex items-center justify-between mt-2">
+            <div className="flex items-center justify-between mt-2 mb-4">
                <img src={coreMind_landscape} alt="CoreMind Landscape" className='w-35' />
                <RxHamburgerMenu className='w-6 h-6' />
             </div>
