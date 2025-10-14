@@ -153,7 +153,7 @@ function Profile() {
               <Badge>
                 <SiNotion className="w-4 h-4" /> Notion
               </Badge>
-              <Badge>
+              <Badge> 
                 <CgMonday className="w-4 h-4" /> Monday
               </Badge>
             </div>

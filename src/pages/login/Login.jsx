@@ -12,7 +12,11 @@ import { auth } from "../../firebase/firebase";
 
 import google from "../../assets/company_logos/google.svg";
 import microsoft from "../../assets/company_logos/microsoft.svg";
+import github from "../../assets/company_logos/github.svg";
 import Alert from "../../components/Alert";
+import Google_Login from "./otherLogin/Google_Login";
+import Microsoft_Login from "./otherLogin/Microsoft_Login";
+import Github_Login from "./otherLogin/Github_Login";
 
 function Login() {
   const [fullName, setFullName] = useState("");
@@ -141,9 +145,8 @@ function Login() {
                   <div className="space-y-2">
                     <label className="block text-sm text-white/80">Full name</label>
                     <div
-                      className={`flex items-center gap-3 rounded-2xl border px-4 py-3 bg-white/5 ${
-                        fullNameInvalid ? "border-red-400/60" : "border-white/10"
-                      }`}
+                      className={`flex items-center gap-3 rounded-2xl border px-4 py-3 bg-white/5 ${fullNameInvalid ? "border-red-400/60" : "border-white/10"
+                        }`}
                     >
                       <svg className="h-5 w-5 opacity-80" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5Zm0 2c-4 0-8 2-8 6v2h16v-2c0-4-4-6-8-6Z" />
@@ -164,9 +167,8 @@ function Login() {
                 <div className="space-y-2">
                   <label className="block text-sm text-white/80">Email</label>
                   <div
-                    className={`flex items-center gap-3 rounded-2xl border px-4 py-3 bg-white/5 ${
-                      emailInvalid ? "border-red-400/60" : "border-white/10"
-                    }`}
+                    className={`flex items-center gap-3 rounded-2xl border px-4 py-3 bg-white/5 ${emailInvalid ? "border-red-400/60" : "border-white/10"
+                      }`}
                   >
                     <svg className="h-5 w-5 opacity-80" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M20 4H4c-1.1 0-2 .9-2 2v1l10 6 10-6V6c0-1.1-.9-2-2-2Zm0 6.3-8.5 5.1c-.3.2-.7.2-1 0L2 10.3V18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-7.7Z" />
@@ -186,9 +188,8 @@ function Login() {
                 <div className="space-y-2">
                   <label className="block text-sm text-white/80">Password</label>
                   <div
-                    className={`flex items-center gap-3 rounded-2xl border px-4 py-3 bg-white/5 ${
-                      passwordInvalid ? "border-red-400/60" : "border-white/10"
-                    }`}
+                    className={`flex items-center gap-3 rounded-2xl border px-4 py-3 bg-white/5 ${passwordInvalid ? "border-red-400/60" : "border-white/10"
+                      }`}
                   >
                     <svg className="h-5 w-5 opacity-80" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M12 1a5 5 0 00-5 5v3H6a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2v-8a2 2 0 00-2-2h-1V6a5 5 0 00-5-5Zm-3 8V6a3 3 0 016 0v3H9Z" />
@@ -269,8 +270,14 @@ function Login() {
               </div>
 
               {/* federated providers */}
-              <Other_Login img={google} text="Google" />
-              <Other_Login img={microsoft} text="Microsoft" />
+              <div className="space-y-6">
+                <p className='text-lg text-white font-medium text-center'>Continue with</p>
+                <div className="flex gap-4 justify-center">
+                  <Google_Login />
+                  <Microsoft_Login />
+                  <Github_Login />
+                </div>
+              </div>
 
               <p className="text-center mt-10 text-white/60 text-sm">
                 &copy; {new Date().getFullYear()} CoreMind. All rights reserved.
