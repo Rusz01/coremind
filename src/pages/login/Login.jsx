@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Border_Card, Header } from "../../components";
-import Other_Login from "./Other_Login";
+import {  Header } from "../../components";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
