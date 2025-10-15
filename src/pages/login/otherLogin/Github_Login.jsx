@@ -1,15 +1,16 @@
 import React from 'react'
 import { Border_Light } from '../../../components'
 import github from "../../../assets/company_logos/github.svg";
-import { GithubAuthProvider, signInWithPopup } from 'firebase/auth';
-import { auth } from '../../../firebase/firebase';
+import { auth, githubProvider, signInWithPopup } from '../../../firebase/firebase';
+import { useNavigate } from 'react-router-dom';
 
 function Github_Login() {
-  const githubProvider = new GithubAuthProvider();
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
       await signInWithPopup(auth, githubProvider);
+      setTimeout(() => navigate("/chat"), 600);
     } catch (error) {
       console.error("Error signing in with GitHub:", error);
     }

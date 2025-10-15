@@ -1,16 +1,16 @@
 import React from 'react'
 import { Border_Light } from '../../../components'
 import microsoft from "../../../assets/company_logos/microsoft.svg";
-import { OAuthProvider, signInWithPopup } from 'firebase/auth';
-import { auth } from '../../../firebase/firebase';
+import { auth, microsoftProvider, signInWithPopup } from '../../../firebase/firebase';
+import { useNavigate } from 'react-router-dom';
 
 
 function Microsoft_Login() {
-  const microsoftProvider = new OAuthProvider('microsoft.com');
-
+  const navigate = useNavigate();
   const handleLogin = async () => {
     try {
       await signInWithPopup(auth, microsoftProvider);
+      setTimeout(() => navigate("/chat"), 600);
     } catch (error) {
       console.error("Error signing in with Microsoft:", error);
     }

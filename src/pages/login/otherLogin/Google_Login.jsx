@@ -1,14 +1,15 @@
 import React from 'react'
 import { Border_Light } from '../../../components'
 import google from "../../../assets/company_logos/google.svg";
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { auth } from '../../../firebase/firebase';
+import { auth, googleProvider, signInWithPopup } from '../../../firebase/firebase';
+import { useNavigate } from 'react-router-dom';
 
 function Google_Login() {
-  const googleProvider = new GoogleAuthProvider();
+  const navigate = useNavigate();
   const handleLogin = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
+      setTimeout(() => navigate("/chat"), 600);
     } catch (error) {
       console.error("Error signing in with Google:", error);
     }
