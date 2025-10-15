@@ -70,6 +70,11 @@ function ChatHome_Left({ setSidePanel }) {
     }
   }, [searchOpen]);
 
+  const closeSearch = () => {
+    setSearchOpen(false);
+    setQuery("");
+  };
+
   // Keyboard shortcut: Cmd/Ctrl + K to toggle search
   useEffect(() => {
     const onKey = (e) => {
@@ -80,7 +85,7 @@ function ChatHome_Left({ setSidePanel }) {
         setSearchOpen((o) => !o);
       }
       if (e.key === "Escape") {
-        setSearchOpen(false);
+        closeSearch();
       }
     };
     window.addEventListener("keydown", onKey);
@@ -136,7 +141,7 @@ function ChatHome_Left({ setSidePanel }) {
             />
             <button
               type="button"
-              onClick={() => setSearchOpen(false)}
+              onClick={closeSearch}
               className="absolute right-3 p-1 hover:opacity-80 "
               aria-label="Close search"
             >
@@ -183,6 +188,17 @@ function ChatHome_Left({ setSidePanel }) {
             </div>
           )}
 
+          <button
+            className="w-full text-left rounded-2xl px-3 py-3 bg-white/5 hover:bg-white/10 border border-white/10 transition"
+            onClick={() => {
+              // Example: navigate("/chat/new")
+              // For now, just close search if it was open.
+              setSearchOpen(false);
+            }}
+          >
+            <p className="text-sm font-medium">+ New chat</p>
+          </button>
+
           {filtered.map((c, i) => (
             <button
               key={`${c.title}-${i}`}
@@ -197,6 +213,7 @@ function ChatHome_Left({ setSidePanel }) {
                 setSearchOpen(false);
               }}
             >
+
               <p className="text-sm font-medium">
                 <Highlight text={c.title} query={query} />
               </p>
