@@ -120,38 +120,37 @@ function AllSettings() {
     <div className="z-100">
       <Border_Card>
         {/* Denser inner panel for readability */}
-          <div className="w-[900px] max-w-full h-[900px] grid grid-cols-1 md:grid-cols-[280px,1fr] gap-6">
+          <div className="w-[900px] max-w-full h-[900px] gap-6">
             {/* Sidebar */}
-            <aside className="rounded-2xl border border-white/10 bg-white/10 p-4">
-              <h2 className="text-xl font-semibold mb-4">Settings</h2>
-              <nav className="space-y-2 text-base">
+            <aside className="rounded-2xl border border-white/10 bg-white/10 p-4 mb-5">
+              <h2 className="text-xl font-semibold mb-4 text-center">Settings</h2>
+              <nav className="flex text-base w-full justify-around">
                 <button
-                  className="w-full flex items-center gap-3 rounded-xl px-3 py-2 text-white/80 hover:text-white hover:bg-white/10 transition"
+                  className="flex items-center gap-3 rounded-xl px-5 py-2 text-white/80 hover:text-white hover:bg-white/10 transition"
                   type="button"
                 >
                   <IoMdSettings className="w-5 h-5" /> General
                 </button>
 
                 <button
-                  className="w-full flex items-center justify-between rounded-xl px-3 py-2 bg-accent-blue/20 text-white border border-accent-blue/40"
+                  className="flex items-center rounded-xl px-5 py-2 bg-accent-blue/20 text-white border border-accent-blue/40"
                   type="button"
                   aria-current="page"
                 >
                   <span className="inline-flex items-center gap-3">
                     <IoMdApps className="w-5 h-5" /> Connected Apps
                   </span>
-                  <span className="text-xs opacity-80">2</span>
                 </button>
 
                 <button
-                  className="w-full flex items-center gap-3 rounded-xl px-3 py-2 text-white/80 hover:text-white hover:bg-white/10 transition"
+                  className="flex items-center gap-3 rounded-xl px-5 py-2 text-white/80 hover:text-white hover:bg-white/10 transition"
                   type="button"
                 >
                   <MdOutlineSecurity className="w-5 h-5" /> Security
                 </button>
 
                 <button
-                  className="w-full flex items-center gap-3 rounded-xl px-3 py-2 text-white/80 hover:text-white hover:bg-white/10 transition"
+                  className="flex items-center gap-3 rounded-xl px-5 py-2 text-white/80 hover:text-white hover:bg-white/10 transition"
                   type="button"
                 >
                   <MdAccountCircle className="w-5 h-5" /> Account
@@ -160,7 +159,7 @@ function AllSettings() {
             </aside>
 
             {/* Content */}
-            <section className="rounded-2xl border border-white/10 bg-white/10 p-5 overflow-y-auto">
+            <section className="rounded-2xl border border-white/10 bg-white/10 p-5 overflow-y-auto h-[760px]">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <h2 className="text-2xl font-semibold">Connected Apps</h2>
