@@ -2,6 +2,7 @@ import React from 'react'
 import { Border_Light } from '../../../components'
 import github from "../../../assets/company_logos/github.svg";
 import { auth, githubProvider, signInWithPopup } from '../../../firebase/firebase';
+import { ensureUserDoc } from '../../../utils/ensureUserDoc';
 import { useNavigate } from 'react-router-dom';
 
 function Github_Login() {
@@ -9,10 +10,12 @@ function Github_Login() {
 
   const handleLogin = async () => {
     try {
-      await signInWithPopup(auth, githubProvider);
-      setTimeout(() => navigate("/chat"), 600);
-    } catch (error) {
-      console.error("Error signing in with GitHub:", error);
+      const { user } = await signInWithPopup(auth, githubProvider);
+      await ensureUserDoc(user);
+      navigate("/chat");
+    } catch (e) {
+      console.error("GitHub sign-in error:", e);
+      alert(e?.message || "GitHub sign-in failed");
     }
   };
 

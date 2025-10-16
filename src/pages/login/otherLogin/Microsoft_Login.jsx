@@ -2,6 +2,7 @@ import React from 'react'
 import { Border_Light } from '../../../components'
 import microsoft from "../../../assets/company_logos/microsoft.svg";
 import { auth, microsoftProvider, signInWithPopup } from '../../../firebase/firebase';
+import { ensureUserDoc } from '../../../utils/ensureUserDoc';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -9,14 +10,14 @@ function Microsoft_Login() {
   const navigate = useNavigate();
   const handleLogin = async () => {
     try {
-      await signInWithPopup(auth, microsoftProvider);
-      setTimeout(() => navigate("/chat"), 600);
-    } catch (error) {
-      console.error("Error signing in with Microsoft:", error);
+      const { user } = await signInWithPopup(auth, microsoftProvider);
+      await ensureUserDoc(user);
+      navigate("/chat");
+    } catch (e) {
+      console.error("Microsoft sign-in error:", e);
+      alert(e?.message || "Microsoft sign-in failed");
     }
   };
-
-
 
   return (
     <button className='mb-8 cursor-pointer hover:scale-105 transition-transform duration-200' onClick={handleLogin}>
