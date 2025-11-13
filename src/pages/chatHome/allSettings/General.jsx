@@ -1,7 +1,4 @@
 import React, { useState } from 'react'
-import { Border_Card } from "../../../components";
-import { FaGoogleDrive } from "react-icons/fa";
-import { SiNotion } from "react-icons/si";
 
 function General() {
   const [theme, setTheme] = useState("dark");
@@ -48,7 +45,7 @@ function General() {
           </div>
         </div>
 
-
+        {/* Font Setting */}
         <div className="space-y-4">
           <div className="group relative flex items-center justify-between rounded-2xl border border-white/10 bg-white/10 px-4 py-4 hover:bg-white/15 transition">
             <div className="flex items-center gap-3 w-full">
@@ -62,8 +59,8 @@ function General() {
 
             <div className="flex items-center gap-2">
               <select
-                value={theme}
-                onChange={(e) => setTheme(e.target.value)}
+                value={font}
+                onChange={(e) => setFont(e.target.value)}
                 className="bg-transparent border border-white/20 rounded-2xl px-5 py-2 text-sm text-white focus:outline-none"
               >
                 <option value="font1" className="text-black">Font 1</option>
