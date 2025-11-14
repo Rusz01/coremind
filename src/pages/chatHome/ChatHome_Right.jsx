@@ -102,7 +102,7 @@ function ChatHome_Right({ sidePanel, setSidePanel, selectedChatId }) {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-0 py-8">
+      <div className="flex-1 overflow-y-auto px-0 py-8 custom-scrollbar">
         <div className="max-w-6xl mx-auto space-y-6">
           {messages.map((message) => (
             <div
@@ -120,11 +120,11 @@ function ChatHome_Right({ sidePanel, setSidePanel, selectedChatId }) {
                   </p>
                 </Border_Light>
               ) : (
-                <div className="flex gap-4 text-white">
+                <div className="flex gap-4 mt-5 text-white">
                   <img
                     src="/public/logoBlack.png"
                     alt=""
-                    className="w-8 rounded-full border border-white/20"
+                    className="w-8 h-8 rounded-full border border-white/20"
                   />
                   <p className="whitespace-pre-wrap break-words">
                     {message.text}
