@@ -203,15 +203,15 @@ function ChatHome_Left({ setSidePanel, onSelectChat, onNewChat }) {
       <section className="mt-8 flex-1 overflow-auto">
         <h2 className="text-sm font-semibold text-white/80 mb-3">Chats</h2>
 
-<button
-  className="w-full text-left rounded-2xl px-3 py-3 bg-white/5 hover:bg-white/10 border border-white/10 transition"
-  onClick={() => {
-    onNewChat();            // NEW LINE
-    setMenuOpen(null);
-  }}
->
-  <p className="text-sm font-medium">+ New chat</p>
-</button>
+        <button
+          className="w-full text-left rounded-2xl px-3 py-3 bg-white/5 hover:bg-white/10 border border-white/10 transition"
+          onClick={() => {
+            onNewChat();
+            setMenuOpen(null);
+          }}
+        >
+          <p className="text-sm font-medium">+ New chat</p>
+        </button>
 
         <div className="space-y-2 mt-2">
           {filtered.length === 0 && (
@@ -252,7 +252,12 @@ function ChatHome_Left({ setSidePanel, onSelectChat, onNewChat }) {
               </button>
 
               {menuOpen === chat.id && (
-                <div className="absolute right-3 mt-2 z-50 bg-white/10 border border-white/20 rounded-xl w-32 text-sm backdrop-blur-md">
+                <div className="absolute right-3 top-10 z-50 rounded-xl w-32 text-sm 
+                bg-secondary-blue/80 backdrop-blur-lg
+                border border-white/20
+                shadow-[0_8px_32px_rgba(31,38,135,0.25)]
+                transition-all duration-300
+                hover:scale-[1.01] hover:shadow-[0_12px_45px_rgba(31,38,135,0.35)]">
                   <button
                     className="block w-full text-left px-3 py-2 hover:bg-white/20"
                     onClick={() => handleRename(chat)}
