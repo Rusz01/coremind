@@ -1,11 +1,20 @@
-import React from 'react'
+import React, { useState } from "react";
 import ChatTextArea from "./ChatTextArea";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { startChat } from "../../api/chatApi";
 
 function NewChatHome({ sidePanel, setSidePanel }) {
- return (
+  const [chatId, setChatId] = useState(null);
+
+  const handleSend = async (text) => {
+    if (!chatId) {
+      const chat = await startChat();
+      setChatId(chat.id);
+    }
+  };
+
+  return (
     <div className="flex flex-col h-full">
-      {/* Top bar */}
       <div className="flex items-center justify-between">
         {!sidePanel && (
           <button
@@ -19,7 +28,6 @@ function NewChatHome({ sidePanel, setSidePanel }) {
         <div />
       </div>
 
-      {/* Empty state */}
       <div className="flex-1 flex flex-col items-center justify-center">
         <div className="text-center">
           <h2 className="text-3xl md:text-4xl font-semibold">How can I help?</h2>
@@ -27,12 +35,11 @@ function NewChatHome({ sidePanel, setSidePanel }) {
         </div>
 
         <div className="w-full max-w-3xl mt-8">
-          <ChatTextArea />
+          <ChatTextArea onSend={handleSend} />
         </div>
       </div>
     </div>
   );
 }
 
-
-export default NewChatHome
+export default NewChatHome;

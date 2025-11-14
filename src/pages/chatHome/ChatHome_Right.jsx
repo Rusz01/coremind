@@ -2,57 +2,75 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import ChatTextArea from "./ChatTextArea";
 import { Border_Light } from "../../components";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { startChat, sendMessage, getChatMessages } from "../../api/chatApi";
 
 function ChatHome_Right({ sidePanel, setSidePanel }) {
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      text: "Hi! How can I help you today?",
-      sender: "assistant",
-      timestamp: new Date(),
-    },
-  ]);
-
+  const [chatId, setChatId] = useState(null);
+  const [messages, setMessages] = useState([]);
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, []);
 
+  // Scroll to bottom when messages change
   useEffect(() => {
     scrollToBottom();
   }, [messages, scrollToBottom]);
 
-  const sendUserMessage = useCallback((text) => {
-    const trimmed = text.trim();
-    if (!trimmed) return;
+  // Load chat if chatId is set
+  useEffect(() => {
+    if (!chatId) return;
 
-    const userMessage = {
-      id: Date.now(),
-      text: trimmed,
-      sender: "user",
-      timestamp: new Date(),
-    };
+    async function loadHistory() {
+      const data = await getChatMessages(chatId);
+      setMessages(
+        data.map((msg) => ({
+          id: msg.id,
+          text: msg.text,
+          sender: msg.sender,
+          timestamp: msg.created_at,
+        }))
+      );
+    }
 
-    setMessages((prev) => [...prev, userMessage]);
+    loadHistory();
+  }, [chatId]);
 
+  const sendUserMessage = useCallback(
+    async (text) => {
+      const trimmed = text.trim();
+      if (!trimmed) return;
 
-    setTimeout(() => {
-      const assistantMessage = {
-        id: Date.now() + 1,
-        text: "Thanks for your message! This is a simulated reply.",
-        sender: "assistant",
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, assistantMessage]);
-    }, 800);
-  }, []);
+      // Create chat if first message
+      let currentChat = chatId;
+      if (!currentChat) {
+        const newChat = await startChat("New Chat");
+        currentChat = newChat.id;
+        setChatId(newChat.id);
+      }
+
+      // Send message to backend
+      const updatedMessages = await sendMessage(currentChat, trimmed);
+
+      // Format backend messages for UI
+      setMessages(
+        updatedMessages.map((msg) => ({
+          id: msg.id,
+          text: msg.text,
+          sender: msg.sender,
+          timestamp: msg.created_at,
+        }))
+      );
+    },
+    [chatId]
+  );
 
   return (
     <div className="flex flex-col h-[90vh]">
       {/* Header */}
       <div className="flex items-center border-b border-white/10 px-6 py-4">
-      {!sidePanel && (
+        {!sidePanel && (
           <button
             className="md:hidden inline-flex items-center justify-center rounded-xl p-2 text-white/80 hover:text-white hover:bg-white/10"
             onClick={() => setSidePanel(true)}
@@ -70,7 +88,9 @@ function ChatHome_Right({ sidePanel, setSidePanel }) {
           {messages.map((message) => (
             <div
               key={message.id}
-              className={`flex ${message.sender === "user" ? "justify-end" : "justify-start"}`}
+              className={`flex ${
+                message.sender === "user" ? "justify-end" : "justify-start"
+              }`}
             >
               {message.sender === "user" ? (
                 <Border_Light className="!max-w-2xl !rounded-lg !px-2 border !border-accent-blue text-white">
@@ -78,8 +98,14 @@ function ChatHome_Right({ sidePanel, setSidePanel }) {
                 </Border_Light>
               ) : (
                 <div className="flex gap-4 text-white">
-                  <img src="/public/logoBlack.png" alt="" className="w-8 rounded-full border border-white/20" />
-                  <p className="whitespace-pre-wrap break-words">{message.text}</p>
+                  <img
+                    src="/public/logoBlack.png"
+                    alt=""
+                    className="w-8 rounded-full border border-white/20"
+                  />
+                  <p className="whitespace-pre-wrap break-words">
+                    {message.text}
+                  </p>
                 </div>
               )}
             </div>
