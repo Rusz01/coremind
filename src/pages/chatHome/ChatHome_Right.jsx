@@ -4,34 +4,46 @@ import { Border_Light } from "../../components";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { startChat, sendMessage, getChatMessages } from "../../api/chatApi";
 
-function ChatHome_Right({ sidePanel, setSidePanel }) {
-  const [chatId, setChatId] = useState(null);
+function ChatHome_Right({ sidePanel, setSidePanel, selectedChatId }) {
+  const [chatId, setChatId] = useState(selectedChatId);
   const [messages, setMessages] = useState([]);
+
   const messagesEndRef = useRef(null);
+
+  // keep chatId in sync with sidebar selection
+  useEffect(() => {
+    setChatId(selectedChatId);
+  }, [selectedChatId]);
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, []);
 
-  // Scroll to bottom when messages change
   useEffect(() => {
     scrollToBottom();
   }, [messages, scrollToBottom]);
 
-  // Load chat if chatId is set
+  // Load history whenever chatId changes
   useEffect(() => {
-    if (!chatId) return;
+    if (!chatId) {
+      setMessages([]);
+      return;
+    }
 
     async function loadHistory() {
-      const data = await getChatMessages(chatId);
-      setMessages(
-        data.map((msg) => ({
-          id: msg.id,
-          text: msg.text,
-          sender: msg.sender,
-          timestamp: msg.created_at,
-        }))
-      );
+      try {
+        const data = await getChatMessages(chatId);
+        setMessages(
+          data.map((msg) => ({
+            id: msg.id,
+            text: msg.text,
+            sender: msg.sender,
+            timestamp: msg.created_at,
+          }))
+        );
+      } catch (err) {
+        console.error("Failed to load messages", err);
+      }
     }
 
     loadHistory();
@@ -42,26 +54,33 @@ function ChatHome_Right({ sidePanel, setSidePanel }) {
       const trimmed = text.trim();
       if (!trimmed) return;
 
-      // Create chat if first message
       let currentChat = chatId;
+
+      // If there's no chat yet, create one first
       if (!currentChat) {
-        const newChat = await startChat("New Chat");
-        currentChat = newChat.id;
-        setChatId(newChat.id);
+        try {
+          const newChat = await startChat("New Chat");
+          currentChat = newChat.id;
+          setChatId(newChat.id);
+        } catch (err) {
+          console.error("Failed to start chat", err);
+          return;
+        }
       }
 
-      // Send message to backend
-      const updatedMessages = await sendMessage(currentChat, trimmed);
-
-      // Format backend messages for UI
-      setMessages(
-        updatedMessages.map((msg) => ({
-          id: msg.id,
-          text: msg.text,
-          sender: msg.sender,
-          timestamp: msg.created_at,
-        }))
-      );
+      try {
+        const updated = await sendMessage(currentChat, trimmed);
+        setMessages(
+          updated.map((msg) => ({
+            id: msg.id,
+            text: msg.text,
+            sender: msg.sender,
+            timestamp: msg.created_at,
+          }))
+        );
+      } catch (err) {
+        console.error("Failed to send message", err);
+      }
     },
     [chatId]
   );
@@ -89,12 +108,16 @@ function ChatHome_Right({ sidePanel, setSidePanel }) {
             <div
               key={message.id}
               className={`flex ${
-                message.sender === "user" ? "justify-end" : "justify-start"
+                message.sender === "user"
+                  ? "justify-end"
+                  : "justify-start"
               }`}
             >
               {message.sender === "user" ? (
                 <Border_Light className="!max-w-2xl !rounded-lg !px-2 border !border-accent-blue text-white">
-                  <p className="whitespace-pre-wrap break-words">{message.text}</p>
+                  <p className="whitespace-pre-wrap break-words">
+                    {message.text}
+                  </p>
                 </Border_Light>
               ) : (
                 <div className="flex gap-4 text-white">
@@ -115,7 +138,7 @@ function ChatHome_Right({ sidePanel, setSidePanel }) {
       </div>
 
       {/* Input */}
-      <div className="">
+      <div>
         <div className="max-w-3xl mx-auto">
           <ChatTextArea onSend={sendUserMessage} />
         </div>

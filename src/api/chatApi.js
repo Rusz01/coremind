@@ -13,13 +13,34 @@ async function authHeader() {
   };
 }
 
-export async function startChat(title = "New chat") {
+export async function startChat(title = "New Chat") {
   const headers = await authHeader();
   const res = await fetch(`${API_BASE}/chat/start`, {
     method: "POST",
     headers,
     body: JSON.stringify({ title }),
   });
+  if (!res.ok) throw new Error("Failed to start chat");
+  return res.json();
+}
+
+export async function listChats() {
+  const headers = await authHeader();
+  const res = await fetch(`${API_BASE}/chat/list`, {
+    method: "GET",
+    headers,
+  });
+  if (!res.ok) throw new Error("Failed to load chats");
+  return res.json();
+}
+
+export async function getChatMessages(chatId) {
+  const headers = await authHeader();
+  const res = await fetch(`${API_BASE}/chat/${chatId}`, {
+    method: "GET",
+    headers,
+  });
+  if (!res.ok) throw new Error("Failed to load chat messages");
   return res.json();
 }
 
@@ -30,23 +51,27 @@ export async function sendMessage(chatId, text) {
     headers,
     body: JSON.stringify({ text }),
   });
+  if (!res.ok) throw new Error("Failed to send message");
+  return res.json(); // list of messages
+}
+
+export async function renameChat(chatId, title) {
+  const headers = await authHeader();
+  const res = await fetch(`${API_BASE}/chat/${chatId}/rename`, {
+    method: "PATCH",
+    headers,
+    body: JSON.stringify({ title }),
+  });
+  if (!res.ok) throw new Error("Failed to rename chat");
   return res.json();
 }
 
-export async function getChatMessages(chatId) {
+export async function deleteChat(chatId) {
   const headers = await authHeader();
   const res = await fetch(`${API_BASE}/chat/${chatId}`, {
-    method: "GET",
+    method: "DELETE",
     headers,
   });
-  return res.json();
-}
-
-export async function listChats() {
-  const headers = await authHeader();
-  const res = await fetch(`${API_BASE}/chat/list`, {
-    method: "GET",
-    headers,
-  });
+  if (!res.ok) throw new Error("Failed to delete chat");
   return res.json();
 }

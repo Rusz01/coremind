@@ -8,16 +8,7 @@ import { SiNotion } from "react-icons/si";
 import { GrOnedrive } from "react-icons/gr";
 import { CgMonday } from "react-icons/cg";
 import coreMind_landscape from "/coreMind_landscape.png";
-
-// NOTE: In a real app, you'll likely fetch this from your store/server.
-const chats = [
-  { title: "Smart Bin-Picking Report", desc: "Draft summary & action items", active: true },
-  { title: "Team updates", desc: "Sprint notes and blockers" },
-  { title: "Feature backlog", desc: "Priorities & estimates" },
-  { title: "Client feedback", desc: "Review last meeting notes" },
-  { title: "Hiring sync", desc: "Open roles & pipeline" },
-  { title: "Quarterly planning", desc: "OKRs and roadmap" },
-];
+import { listChats, deleteChat, renameChat } from "../../api/chatApi";
 
 function Chip({ children }) {
   return (
@@ -27,15 +18,15 @@ function Chip({ children }) {
   );
 }
 
-/**
- * Small helper to highlight matches in a case-insensitive way.
- */
 function Highlight({ text, query }) {
   if (!query) return <>{text}</>;
   const q = query.trim();
   if (!q) return <>{text}</>;
-  const regex = new RegExp(`(${q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "ig");
-  const parts = String(text).split(regex);
+
+  const safe = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const regex = new RegExp(`(${safe})`, "ig");
+  const parts = String(text || "").split(regex);
+
   return (
     <>
       {parts.map((part, i) =>
@@ -54,52 +45,83 @@ function Highlight({ text, query }) {
   );
 }
 
-function ChatHome_Left({ setSidePanel }) {
+
+function ChatHome_Left({ setSidePanel, onSelectChat, onNewChat }) {
   const navigate = useNavigate();
 
-  // Search UI state
+  const [chatList, setChatList] = useState([]);
+  const [menuOpen, setMenuOpen] = useState(null);
+
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const inputRef = useRef(null);
 
-  // Focus input when search opens
+  // Load chats from backend
+  useEffect(() => {
+    async function load() {
+      try {
+        const data = await listChats();
+        setChatList(data);
+      } catch (err) {
+        console.error("Failed to load chats", err);
+      }
+    }
+    load();
+  }, []);
+
+  // Autofocus search input when open
   useEffect(() => {
     if (searchOpen) {
-      const id = setTimeout(() => inputRef.current?.focus(), 50);
+      const id = setTimeout(() => inputRef.current?.focus(), 40);
       return () => clearTimeout(id);
     }
   }, [searchOpen]);
+
+  // Filtered chats by search query
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return chatList;
+    return chatList.filter(
+      (c) =>
+        c.title.toLowerCase().includes(q) ||
+        (c.last_message || "").toLowerCase().includes(q)
+    );
+  }, [query, chatList]);
+
+  // Delete chat
+  async function handleDelete(chatId) {
+    try {
+      await deleteChat(chatId);
+      setChatList((prev) => prev.filter((c) => c.id !== chatId));
+      setMenuOpen(null);
+      onSelectChat(null);
+    } catch (err) {
+      console.error("Failed to delete chat", err);
+    }
+  }
+
+  // Rename chat
+  async function handleRename(chat) {
+    const newTitle = prompt("Rename chat:", chat.title);
+    if (!newTitle) return;
+
+    try {
+      const res = await renameChat(chat.id, newTitle);
+      setChatList((prev) =>
+        prev.map((c) =>
+          c.id === chat.id ? { ...c, title: res.title } : c
+        )
+      );
+      setMenuOpen(null);
+    } catch (err) {
+      console.error("Failed to rename chat", err);
+    }
+  }
 
   const closeSearch = () => {
     setSearchOpen(false);
     setQuery("");
   };
-
-  // Keyboard shortcut: Cmd/Ctrl + K to toggle search
-  useEffect(() => {
-    const onKey = (e) => {
-      const isK = e.key.toLowerCase() === "k";
-      const mod = e.metaKey || e.ctrlKey;
-      if (mod && isK) {
-        e.preventDefault();
-        setSearchOpen((o) => !o);
-      }
-      if (e.key === "Escape") {
-        closeSearch();
-      }
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
-
-  // Filter logic matches title OR description
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return chats;
-    return chats.filter(({ title, desc }) =>
-      title.toLowerCase().includes(q) || desc.toLowerCase().includes(q)
-    );
-  }, [query]);
 
   return (
     <div className="h-full flex flex-col">
@@ -116,10 +138,9 @@ function ChatHome_Left({ setSidePanel }) {
           />
           <button
             type="button"
-            aria-label="Open search (⌘/Ctrl+K)"
+            aria-label="Open search"
             onClick={() => setSearchOpen((o) => !o)}
             className="rounded-2xl border border-white/10 bg-white/5 p-1.5 hover:bg-white/10 active:scale-[0.98]"
-            title="Search (⌘/Ctrl+K)"
           >
             <IoSearch className="w-6 h-6" />
           </button>
@@ -148,11 +169,13 @@ function ChatHome_Left({ setSidePanel }) {
               <IoClose className="w-5 h-5" />
             </button>
           </div>
-          <p className="text-xs text-white/50 mt-2">Press <kbd className="px-1 rounded bg-white/10">Esc</kbd> to close</p>
+          <p className="text-xs text-white/50 mt-2">
+            Press <kbd className="px-1 rounded bg-white/10">Esc</kbd> to close
+          </p>
         </div>
       )}
 
-      {/* Integrations */}
+      {/* Integrations (keep design) */}
       {!searchOpen && (
         <section className="mt-6">
           <h2 className="text-sm font-semibold text-white/80">Integrations</h2>
@@ -174,53 +197,77 @@ function ChatHome_Left({ setSidePanel }) {
             </Chip>
           </div>
         </section>
-      )
-      }
-
+      )}
 
       {/* Chats */}
       <section className="mt-8 flex-1 overflow-auto">
         <h2 className="text-sm font-semibold text-white/80 mb-3">Chats</h2>
-        <div className="space-y-2">
+
+<button
+  className="w-full text-left rounded-2xl px-3 py-3 bg-white/5 hover:bg-white/10 border border-white/10 transition"
+  onClick={() => {
+    onNewChat();            // NEW LINE
+    setMenuOpen(null);
+  }}
+>
+  <p className="text-sm font-medium">+ New chat</p>
+</button>
+
+        <div className="space-y-2 mt-2">
           {filtered.length === 0 && (
             <div className="rounded-2xl border border-white/10 bg-white/5 px-3 py-4 text-sm text-white/70">
               No chats match “{query}”.
             </div>
           )}
 
-          <button
-            className="w-full text-left rounded-2xl px-3 py-3 bg-white/5 hover:bg-white/10 border border-white/10 transition"
-            onClick={() => {
-              // Example: navigate("/chat/new")
-              // For now, just close search if it was open.
-              setSearchOpen(false);
-            }}
-          >
-            <p className="text-sm font-medium">+ New chat</p>
-          </button>
+          {filtered.map((chat) => (
+            <div key={chat.id} className="relative">
+              <button
+                className="w-full text-left rounded-2xl px-3 py-3 bg-white/5 hover:bg-white/10 border border-white/10 transition"
+                onClick={() => {
+                  onSelectChat(chat.id);
+                  setMenuOpen(null);
+                }}
+              >
+                <p className="text-sm font-medium">
+                  <Highlight text={chat.title} query={query} />
+                </p>
+                <p className="text-xs text-white/70 truncate">
+                  <Highlight
+                    text={chat.last_message || "No messages yet"}
+                    query={query}
+                  />
+                </p>
+              </button>
 
-          {filtered.map((c, i) => (
-            <button
-              key={`${c.title}-${i}`}
-              className={`w-full text-left rounded-2xl px-3 py-3 transition ${c.active
-                  ? "bg-accent-blue/20 border border-accent-blue/40"
-                  : "bg-white/5 hover:bg-white/10 border border-white/10"
-                }`}
-              // TODO: hook into your chat navigation when available
-              onClick={() => {
-                // Example: navigate(`/chat/${slugify(c.title)}`)
-                // For now, just close search if it was open.
-                setSearchOpen(false);
-              }}
-            >
+              {/* 3-dot menu */}
+              <button
+                className="absolute right-3 top-3 text-white/70"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setMenuOpen(menuOpen === chat.id ? null : chat.id);
+                }}
+              >
+                •••
+              </button>
 
-              <p className="text-sm font-medium">
-                <Highlight text={c.title} query={query} />
-              </p>
-              <p className="text-xs text-white/70 truncate">
-                <Highlight text={c.desc} query={query} />
-              </p>
-            </button>
+              {menuOpen === chat.id && (
+                <div className="absolute right-3 mt-2 z-50 bg-white/10 border border-white/20 rounded-xl w-32 text-sm backdrop-blur-md">
+                  <button
+                    className="block w-full text-left px-3 py-2 hover:bg-white/20"
+                    onClick={() => handleRename(chat)}
+                  >
+                    Rename
+                  </button>
+                  <button
+                    className="block w-full text-left px-3 py-2 hover:bg-white/20 text-red-400"
+                    onClick={() => handleDelete(chat.id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
+            </div>
           ))}
         </div>
       </section>
@@ -228,7 +275,11 @@ function ChatHome_Left({ setSidePanel }) {
       {/* Logo */}
       <div className="mt-6">
         <div className="rounded-2xl p-3 text-center">
-          <img src={coreMind_landscape} alt="CoreMind" className="mx-auto w-48 opacity-90" />
+          <img
+            src={coreMind_landscape}
+            alt="CoreMind"
+            className="mx-auto w-48 opacity-90"
+          />
         </div>
       </div>
     </div>
