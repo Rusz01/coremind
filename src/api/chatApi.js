@@ -1,17 +1,5 @@
-import { getAuth } from "firebase/auth";
-
-const API_BASE = "http://127.0.0.1:8000";
-
-async function authHeader() {
-  const user = getAuth().currentUser;
-  if (!user) throw new Error("User not logged in");
-
-  const token = await user.getIdToken();
-  return {
-    Authorization: `Bearer ${token}`,
-    "Content-Type": "application/json",
-  };
-}
+// src/api/chatApi.js
+import { API_BASE, authHeader } from "./httpClient";
 
 export async function startChat(title = "New Chat") {
   const headers = await authHeader();
@@ -73,5 +61,16 @@ export async function deleteChat(chatId) {
     headers,
   });
   if (!res.ok) throw new Error("Failed to delete chat");
+  return res.json();
+}
+
+// Optional: if you later add a "delete all chats" backend route
+export async function deleteAllChats() {
+  const headers = await authHeader();
+  const res = await fetch(`${API_BASE}/chat/all`, {
+    method: "DELETE",
+    headers,
+  });
+  if (!res.ok) throw new Error("Failed to delete all chats");
   return res.json();
 }

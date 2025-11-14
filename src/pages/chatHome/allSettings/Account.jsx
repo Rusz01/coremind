@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
-import { auth } from "../../../firebase/firebase"; // <-- your firebase file path
+import React, { useState } from "react";
+import { auth } from "../../../firebase/firebase";
 import { updateEmail, updateProfile } from "firebase/auth";
+import { updateUserField } from "../../../api/userApi";
+
 
 function Account() {
   const user = auth.currentUser;
@@ -17,7 +19,9 @@ function Account() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const updateUserField = async (field, value) => {
+
+  // Update backend + firebase UI
+  const handleUpdate = async (field, value) => {
     if (!auth.currentUser) {
       setMessage("You must be logged in.");
       return;
@@ -27,47 +31,33 @@ function Account() {
       setLoading(true);
       setMessage("");
 
+      // Call backend (FastAPI)
+      await updateUserField(field, value);
 
-      const token = await auth.currentUser.getIdToken(true);
-
-
-      const res = await fetch("http://127.0.0.1:8000/user", {
-        method: "PATCH",
-        headers: {
-          "Authorization": "Bearer " + token,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ [field]: value }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        setMessage(data.detail || "Error updating account.");
-        return;
-      }
-
-      // 3. Update Firebase client-side (UI updates)
+      // Update Firebase client values (UI)
       if (field === "email") {
         await updateEmail(auth.currentUser, value);
         setEmail(value);
+        setTempEmail(value);
       }
 
       if (field === "display_name") {
         await updateProfile(auth.currentUser, { displayName: value });
         setDisplayName(value);
+        setTempName(value);
       }
 
       setMessage("Saved successfully!");
 
-    } catch (error) {
-      setMessage("Error: " + error.message);
+    } catch (err) {
+      setMessage("Error: " + err.message);
     } finally {
       setLoading(false);
     }
   };
 
 
+  // RENDER
   return (
     <div>
       <div className="flex items-center justify-between gap-3">
@@ -92,7 +82,9 @@ function Account() {
           <div className="flex items-center justify-between w-full gap-3">
             <div>
               <h3 className="text-lg font-semibold">Email Address</h3>
-              <p className="text-sm text-white/70">Update the email linked to your account.</p>
+              <p className="text-sm text-white/70">
+                Update the email linked to your account.
+              </p>
             </div>
 
             <input
@@ -111,7 +103,7 @@ function Account() {
               <button
                 disabled={loading}
                 onClick={() => {
-                  updateUserField("email", tempEmail);
+                  handleUpdate("email", tempEmail);
                   setIsEditingEmail(false);
                 }}
                 className="px-4 py-2 rounded-xl bg-green-500/30 text-green-200"
@@ -156,7 +148,7 @@ function Account() {
               <button
                 disabled={loading}
                 onClick={() => {
-                  updateUserField("display_name", tempName);
+                  handleUpdate("display_name", tempName);
                   setIsEditingName(false);
                 }}
                 className="px-4 py-2 rounded-xl bg-green-500/30 text-green-200"
@@ -176,7 +168,6 @@ function Account() {
             </div>
           )}
         </div>
-
       </div>
     </div>
   );
