@@ -31,7 +31,7 @@ export async function getChatMessages(chatId) {
   return res.json();
 }
 
-// Non-streaming send – not used currently
+// Non-streaming send (still available if you need it)
 export async function sendMessage(chatId, text) {
   const headers = await authHeader();
   const res = await fetch(`${API_BASE}/chat/${chatId}/send`, {
@@ -43,7 +43,7 @@ export async function sendMessage(chatId, text) {
   return res.json(); // list of messages
 }
 
-// STREAMING SEND – used by ChatHome_Right
+// STREAMING send — used by ChatHome_Right
 export async function sendMessageStream(chatId, text, onChunk) {
   const headers = await authHeader();
   const res = await fetch(`${API_BASE}/chat/${chatId}/send-stream`, {
@@ -94,7 +94,7 @@ export async function deleteChat(chatId) {
   return res.json();
 }
 
-
+// Optional: if you later add a "delete all chats" backend route
 export async function deleteAllChats() {
   const headers = await authHeader();
   const res = await fetch(`${API_BASE}/chat/all`, {
@@ -103,4 +103,49 @@ export async function deleteAllChats() {
   });
   if (!res.ok) throw new Error("Failed to delete all chats");
   return res.json();
+}
+
+// NEW: Update a single user message
+export async function updateMessage(chatId, messageId, text) {
+  const headers = await authHeader();
+  const res = await fetch(
+    `${API_BASE}/chat/${chatId}/message/${messageId}`,
+    {
+      method: "PATCH",
+      headers,
+      body: JSON.stringify({ text }),
+    }
+  );
+  if (!res.ok) throw new Error("Failed to update message");
+  return res.json();
+}
+
+// NEW: Delete a single user message
+export async function deleteMessage(chatId, messageId) {
+  const headers = await authHeader();
+  const res = await fetch(
+    `${API_BASE}/chat/${chatId}/message/${messageId}`,
+    {
+      method: "DELETE",
+      headers,
+    }
+  );
+  if (!res.ok) throw new Error("Failed to delete message");
+  return res.json();
+}
+
+
+export async function editMessage(chatId, messageId, text) {
+  const headers = await authHeader();
+  const res = await fetch(
+    `${API_BASE}/chat/${chatId}/message/${messageId}/edit`,
+    {
+      method: "PATCH",
+      headers,
+      body: JSON.stringify({ text }),
+    }
+  );
+
+  if (!res.ok) throw new Error("Failed to edit message");
+  return res.json(); // returns updated list of messages
 }
