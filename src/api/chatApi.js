@@ -1,4 +1,3 @@
-// src/api/chatApi.js
 import { API_BASE, authHeader } from "./httpClient";
 
 export async function startChat(title = "New Chat") {
@@ -32,6 +31,7 @@ export async function getChatMessages(chatId) {
   return res.json();
 }
 
+// Non-streaming send – not used currently
 export async function sendMessage(chatId, text) {
   const headers = await authHeader();
   const res = await fetch(`${API_BASE}/chat/${chatId}/send`, {
@@ -41,6 +41,36 @@ export async function sendMessage(chatId, text) {
   });
   if (!res.ok) throw new Error("Failed to send message");
   return res.json(); // list of messages
+}
+
+// STREAMING SEND – used by ChatHome_Right
+export async function sendMessageStream(chatId, text, onChunk) {
+  const headers = await authHeader();
+  const res = await fetch(`${API_BASE}/chat/${chatId}/send-stream`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ text }),
+  });
+  if (!res.ok) throw new Error("Failed to stream message");
+
+  if (!res.body) {
+    throw new Error("ReadableStream not supported in this browser");
+  }
+
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let fullText = "";
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+
+    const chunk = decoder.decode(value);
+    fullText += chunk;
+    onChunk(fullText);
+  }
+
+  return fullText;
 }
 
 export async function renameChat(chatId, title) {
@@ -64,7 +94,7 @@ export async function deleteChat(chatId) {
   return res.json();
 }
 
-// Optional: if you later add a "delete all chats" backend route
+
 export async function deleteAllChats() {
   const headers = await authHeader();
   const res = await fetch(`${API_BASE}/chat/all`, {
