@@ -1,5 +1,4 @@
-// src/App.jsx
-import './App.css'
+import "./App.css";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -7,20 +6,27 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 
-import Home from './pages/home/Home'
-import Login from './pages/login/Login';
-import ChatHome from './pages/chatHome/ChatHome';
-import Profile from './pages/chatHome/profile/Profile';
-import AllSettings from './pages/chatHome/allSettings/AllSettings';
+import Home from "./pages/home/Home";
+import Login from "./pages/login/Login";
+import ChatHome from "./pages/chatHome/ChatHome";
+import Profile from "./pages/chatHome/profile/Profile";
+import AllSettings from "./pages/chatHome/allSettings/AllSettings";
 
-import RequireAuth from './utils/requireAuth'; // <-- add this
+import GoogleCallback from "./pages/integrations/GoogleCallback"; 
+import RequireAuth from "./utils/requireAuth";
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
+        {/* Public routes */}
         <Route path="/" element={<Home />} />
         <Route path="/auth/:mode" element={<Login />} />
+{/* Google Integration */}
+        <Route
+          path="/integrations/google/callback"
+          element={<GoogleCallback />}
+        />
 
         {/* Protected branch */}
         <Route

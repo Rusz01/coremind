@@ -330,7 +330,7 @@ const handleEditSave = async (msg) => {
 
       {/* MESSAGES */}
       <div
-        className="flex-1 overflow-y-auto px-0 py-8"
+        className="flex-1 overflow-y-auto px-0 py-8 custom-scrollbar"
         ref={scrollContainerRef}
         onScroll={handleScroll}
       >
