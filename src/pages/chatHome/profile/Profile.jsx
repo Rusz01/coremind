@@ -156,7 +156,7 @@ function Profile() {
           <div className="mt-6 w-full max-w-xl flex flex-col gap-3">
             <button
               className="w-full rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-sm font-medium text-white hover:bg-white/15"
-              onClick={() => navigate("/chat/allSettings")}
+              onClick={() => navigate("/chat/allSettings/general")}
             >
               View All Settings
             </button>

@@ -1,35 +1,37 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { completeGoogleOAuth } from "../../api/integrationsApi";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../firebase/firebase"; 
+import { useNavigate } from "react-router-dom";
 
 export default function GoogleCallback() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function run() {
-      const params = new URLSearchParams(window.location.search);
-      const code = params.get("code");
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get("code");
 
-      if (!code) {
-        navigate("/chat");
+    // Wait for Firebase Auth to become available
+    const unsub = onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        console.error("User not logged in during OAuth callback");
         return;
       }
 
       try {
         await completeGoogleOAuth(code);
+        navigate("/chat/allSettings/connectedApps");
       } catch (err) {
         console.error("Failed to complete Google OAuth:", err);
       }
+    });
 
-      navigate("/chat/settings"); // or /chat/allSettings
-    }
-
-    run();
-  }, []);
+    return () => unsub();
+  }, [navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center text-white">
-      <p>Connecting your Google Drive…</p>
+    <div className="text-white p-8">
+      Connecting your Google Drive...
     </div>
   );
 }

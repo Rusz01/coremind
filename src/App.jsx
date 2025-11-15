@@ -11,8 +11,12 @@ import Login from "./pages/login/Login";
 import ChatHome from "./pages/chatHome/ChatHome";
 import Profile from "./pages/chatHome/profile/Profile";
 import AllSettings from "./pages/chatHome/allSettings/AllSettings";
+import General from "./pages/chatHome/allSettings/General";
+import ConnectedApps from "./pages/chatHome/allSettings/connectedApps";
+import Security from "./pages/chatHome/allSettings/Security";
+import Account from "./pages/chatHome/allSettings/Account";
 
-import GoogleCallback from "./pages/integrations/GoogleCallback"; 
+import GoogleCallback from "./pages/integrations/GoogleCallback";
 import RequireAuth from "./utils/requireAuth";
 
 function App() {
@@ -22,7 +26,7 @@ function App() {
         {/* Public routes */}
         <Route path="/" element={<Home />} />
         <Route path="/auth/:mode" element={<Login />} />
-{/* Google Integration */}
+        {/* Google Integration */}
         <Route
           path="/integrations/google/callback"
           element={<GoogleCallback />}
@@ -38,7 +42,14 @@ function App() {
           }
         >
           <Route path="profile" element={<Profile />} />
-          <Route path="allSettings" element={<AllSettings />} />
+
+          {/* SETTINGS WITH NESTED ROUTES */}
+          <Route path="allSettings" element={<AllSettings />}>
+            <Route path="general" element={<General />} />
+            <Route path="connectedApps" element={<ConnectedApps />} />
+            <Route path="security" element={<Security />} />
+            <Route path="account" element={<Account />} />
+          </Route>
         </Route>
       </>
     )

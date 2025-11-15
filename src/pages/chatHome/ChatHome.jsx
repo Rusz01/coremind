@@ -13,8 +13,7 @@ function ChatHome() {
   const location = useLocation();
 
   const handleProfileClick = () => {
-    if (location.key !== "default") navigate(-1);
-    else navigate("/chat");
+    navigate("/chat");
   };
 
   const isProfileRoute = location.pathname.startsWith("/chat/");
