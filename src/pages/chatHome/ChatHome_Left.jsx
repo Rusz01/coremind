@@ -200,7 +200,7 @@ function ChatHome_Left({ setSidePanel, onSelectChat, onNewChat }) {
       )}
 
       {/* Chats */}
-      <section className="mt-8 flex-1 overflow-auto">
+      <section className="mt-8 flex-1 overflow-auto custom-scrollbar">
         <h2 className="text-sm font-semibold text-white/80 mb-3">Chats</h2>
 
         <button
