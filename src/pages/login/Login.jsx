@@ -135,7 +135,7 @@ function Login() {
       <Header />
 
       <div className="flex justify-center items-center mt-16 px-4">
-        <div className="w-full max-w-xl">
+        <div className="w-full max-w-xl mb-20">
           {/* Glass card */}
           <div className="relative rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl">
             <div className="absolute -top-6 left-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-accent-blue/80 px-4 py-1.5 text-sm">
