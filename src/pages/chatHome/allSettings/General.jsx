@@ -23,7 +23,7 @@ return (
       <div className="flex flex-col gap-4">
 
         <div className="space-y-4">
-          <div className="group relative flex items-center justify-between rounded-2xl border border-white/10 bg-white/10 px-4 py-4 hover:bg-white/15 transition">
+          <div className="group relative md:flex items-center  justify-between rounded-2xl border border-white/10 bg-white/10 px-4 py-4 hover:bg-white/15 transition">
             <div className="flex items-center gap-3 w-full">
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
@@ -33,7 +33,7 @@ return (
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mt-3">
               <select
                 value={theme}
                 onChange={(e) => setTheme(e.target.value)}
@@ -49,7 +49,7 @@ return (
 
         {/* Font Setting */}
         <div className="space-y-4">
-          <div className="group relative flex items-center justify-between rounded-2xl border border-white/10 bg-white/10 px-4 py-4 hover:bg-white/15 transition">
+          <div className="group relative md:flex items-center justify-between rounded-2xl border border-white/10 bg-white/10 px-4 py-4 hover:bg-white/15 transition">
             <div className="flex items-center gap-3 w-full">
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
@@ -59,7 +59,7 @@ return (
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mt-3">
               <select
                 value={font}
                 onChange={(e) => setFont(e.target.value)}

@@ -32,7 +32,7 @@ function AllSettings() {
   };
 
   return (
-    <div className="z-100 h-full md:w-190 lg:w-210 max-w-full lg:h-full">
+    <div className="z-100 h-full w-95 md:w-190 lg:w-210 max-w-full lg:h-full">
       <Border_Card>
         <div className=" gap-6">
 
