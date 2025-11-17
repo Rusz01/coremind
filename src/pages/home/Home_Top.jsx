@@ -22,7 +22,7 @@ function Home_Top() {
             <button className='border border-custom-white py-2 px-8 rounded-2xl transition-all duration-200 hover:scale-105 hover:cursor-pointer mt-3'>Connect Account</button>
          </div>
       </div>
-      <div className="lg:w-140 w-90 mt-10 md:mt-0">
+      <div className="lg:w-140 w-90 mt-10 md:mt-0 mx-auto">
          <Border_Card >
             <div className="flex items-center justify-between mt-2 mb-4">
                <img src={coreMind_landscape} alt="CoreMind Landscape" className='w-35' />
