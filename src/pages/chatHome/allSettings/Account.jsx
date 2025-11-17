@@ -79,7 +79,7 @@ function Account() {
 
         {/* EMAIL */}
         <div className="group relative rounded-2xl border border-white/10 bg-white/10 px-4 py-4 hover:bg-white/15 transition">
-          <div className="flex items-center justify-between w-full gap-3">
+          <div className="md:flex items-center justify-between w-full gap-3">
             <div>
               <h3 className="text-lg font-semibold">Email Address</h3>
               <p className="text-sm text-white/70">
@@ -89,7 +89,7 @@ function Account() {
 
             <input
               type="email"
-              className="bg-transparent border border-white/20 rounded-2xl px-5 py-2 text-sm text-white"
+              className="bg-transparent border border-white/20 rounded-2xl px-5 py-2 text-sm text-white mt-3 md:mt-0"
               value={tempEmail}
               onChange={(e) => {
                 setTempEmail(e.target.value);
@@ -126,7 +126,7 @@ function Account() {
 
         {/* DISPLAY NAME */}
         <div className="group relative rounded-2xl border border-white/10 bg-white/10 px-4 py-4 hover:bg-white/15 transition">
-          <div className="flex items-center justify-between w-full gap-3">
+          <div className="md:flex items-center justify-between w-full gap-3">
             <div>
               <h3 className="text-lg font-semibold">Display Name</h3>
               <p className="text-sm text-white/70">This name appears on your profile.</p>
@@ -134,7 +134,7 @@ function Account() {
 
             <input
               type="text"
-              className="bg-transparent border border-white/20 rounded-2xl px-5 py-2 text-sm text-white"
+              className="bg-transparent border border-white/20 rounded-2xl px-5 py-2 text-sm text-white mt-3 md:mt-0"
               value={tempName}
               onChange={(e) => {
                 setTempName(e.target.value);
