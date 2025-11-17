@@ -4,18 +4,22 @@ import React from 'react'
 function Content({ heading, description, btnText }) {
   return (
     <div className="space-y-4">
-      <div className="group relative flex items-center justify-between rounded-2xl border border-white/10 bg-white/10 px-4 py-4 hover:bg-white/15 transition">
+      <div className="group relative md:flex items-center justify-between rounded-2xl border border-white/10 bg-white/10 px-4 py-4 hover:bg-white/15 transition">
         <div className="flex items-center gap-3 w-full">
           <div className="min-w-0">
             <div className="flex items-center gap-2">
               <h3 className="text-lg font-semibold">{heading}</h3>
             </div>
-            <p className="text-sm text-white/70 truncate">{description}</p>
+          <div className="marquee-container">
+          <p className="text-sm text-white/70 marquee-text">{description}</p>
+          </div>
           </div>
         </div>
 
+
+
         {btnText ? (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 mt-3 md:mt-0">
             <button
               className="rounded-2xl border border-red-400/40 bg-red-500/30 px-4 py-2 text-sm font-semibold text-red-100 hover:bg-red-500/40"
             >

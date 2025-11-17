@@ -88,7 +88,7 @@ function AppRow({ icon: Icon, title, description, linked, onLink, onUnlink }) {
         </div>
       </div>
 
-      <div className="mt-3">
+      <div className="mt-3 md:mt-0">
       {linked ? (
         <button
           className="rounded-2xl border border-red-400/40 bg-red-500/30 px-4 py-2 text-sm font-semibold text-red-100 hover:bg-red-500/40"
