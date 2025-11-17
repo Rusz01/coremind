@@ -12,7 +12,7 @@ import ChatHome from "./pages/chatHome/ChatHome";
 import Profile from "./pages/chatHome/profile/Profile";
 import AllSettings from "./pages/chatHome/allSettings/AllSettings";
 import General from "./pages/chatHome/allSettings/General";
-import ConnectedApps from "./pages/chatHome/allSettings/connectedApps";
+import ConnectedApps from "./pages/chatHome/allSettings/ConnectedApps";
 import Security from "./pages/chatHome/allSettings/Security";
 import Account from "./pages/chatHome/allSettings/Account";
 
