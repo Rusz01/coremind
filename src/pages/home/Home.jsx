@@ -61,7 +61,7 @@ function Home() {
         <hr className="border-t border-custom-blue my-15" />
 
 
-        <h2 className='text-4xl font-medium mt-15 mb-5'>Trusted Integrations</h2>
+        <h2 className='text-4xl font-medium mt-15 mb-10 text-center lg:text-start'>Trusted Integrations</h2>
 
         <div className="flex overflow-hidden md:p-5  mb-15">
           <div className="auto-scroll flex justify-around">

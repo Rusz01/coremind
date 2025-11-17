@@ -33,7 +33,7 @@ function Testimonial() {
   return (
     <div>
       <Border_Light>
-         <div className='relative p-10 text-center gap-5 flex flex-col'>
+         <div className='relative p-5 lg:p-10 text-center gap-5 flex flex-col'>
          <h2 className='text-2xl font-bold'>Testimonial</h2>
          <p className='italic text-lg text-white px-10'>“{testimonials[current].quote}”</p>
          <p>- {testimonials[current].name}, {testimonials[current].title}</p>
