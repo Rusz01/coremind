@@ -22,7 +22,7 @@ function NewChatHome({ sidePanel, setSidePanel, onChatCreated }) {
       <div className="flex items-center justify-between">
         {!sidePanel && (
           <button
-            className="md:hidden inline-flex items-center justify-center rounded-xl p-2 text-white/80 hover:text-white hover:bg-white/10"
+            className="lg:hidden inline-flex items-center justify-center rounded-xl p-2 text-white/80 hover:text-white hover:bg-white/10"
             onClick={() => setSidePanel(true)}
           >
             <RxHamburgerMenu className="w-7 h-7" />

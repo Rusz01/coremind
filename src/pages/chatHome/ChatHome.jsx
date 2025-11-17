@@ -23,9 +23,9 @@ function ChatHome() {
       {/* Sidebar */}
       <aside
         className={`
-          absolute md:static inset-y-0 left-0 z-30 w-[320px]
+          absolute lg:static inset-y-0 left-0 z-30 w-[320px]
           transform transition-transform duration-300
-          ${sidePanel ? "translate-x-0" : "-translate-x-full md:translate-x-0"}
+          ${sidePanel ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
         `}
       >
         <div className="h-full p-4 md:p-6">
@@ -51,7 +51,7 @@ function ChatHome() {
       {/* Overlay */}
       {sidePanel && (
         <div
-          className="md:hidden absolute inset-0 z-20 bg-black/40 backdrop-blur-[2px]"
+          className="lg:hidden absolute inset-0 z-20 bg-black/40 backdrop-blur-[2px]"
           onClick={() => setSidePanel(false)}
         />
       )}

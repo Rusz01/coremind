@@ -128,7 +128,7 @@ function ChatHome_Left({ setSidePanel, onSelectChat, onNewChat }) {
       {/* Top controls */}
       <div className="flex items-center justify-between">
         <RxHamburgerMenu
-          className="w-7 h-7 cursor-pointer md:hidden"
+          className="w-7 h-7 cursor-pointer lg:hidden"
           onClick={() => setSidePanel(false)}
         />
         <div className="flex items-center gap-3">

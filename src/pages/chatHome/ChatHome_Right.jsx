@@ -131,29 +131,29 @@ function ChatHome_Right({ sidePanel, setSidePanel, selectedChatId }) {
   };
 
   // Save edited message
-const handleEditSave = async (msg) => {
-  const trimmed = editingText.trim();
-  if (!trimmed) return;
+  const handleEditSave = async (msg) => {
+    const trimmed = editingText.trim();
+    if (!trimmed) return;
 
-  try {
-    // Backend regenerates from this point
-    const updated = await editMessage(chatId, msg.id, trimmed);
+    try {
+      // Backend regenerates from this point
+      const updated = await editMessage(chatId, msg.id, trimmed);
 
-    setMessages(
-      updated.map((m) => ({
-        id: m.id,
-        text: m.text,
-        sender: m.sender,
-        timestamp: m.created_at || m.timestamp,
-      }))
-    );
+      setMessages(
+        updated.map((m) => ({
+          id: m.id,
+          text: m.text,
+          sender: m.sender,
+          timestamp: m.created_at || m.timestamp,
+        }))
+      );
 
-    setEditingId(null);
-    setEditingText("");
-  } catch (err) {
-    console.error("Failed to regenerate after editing", err);
-  }
-};
+      setEditingId(null);
+      setEditingText("");
+    } catch (err) {
+      console.error("Failed to regenerate after editing", err);
+    }
+  };
 
   // Delete message
   const handleDelete = async (msg) => {
@@ -318,7 +318,7 @@ const handleEditSave = async (msg) => {
       <div className="flex items-center border-b border-white/10 px-6 py-4">
         {!sidePanel && (
           <button
-            className="md:hidden inline-flex items-center justify-center rounded-xl p-2 text-white/80 hover:text-white hover:bg-white/10"
+            className="lg:hidden inline-flex items-center justify-center rounded-xl p-2 text-white/80 hover:text-white hover:bg-white/10"
             onClick={() => setSidePanel(true)}
             aria-label="Open sidebar"
           >
@@ -382,15 +382,15 @@ const handleEditSave = async (msg) => {
                               value={editingText}
                               onChange={(e) => setEditingText(e.target.value)}
                               className="
-              w-full 
-              bg-transparent  
-              text-white
-              resize-none
-              outline-none 
-              rounded-lg 
-              p-2
-              leading-6
-            "
+                              w-full 
+                              bg-transparent  
+                              text-white
+                              resize-none
+                              outline-none 
+                              rounded-lg 
+                              p-2
+                              leading-6
+                            "
                               rows={Math.max(3, editingText.split("\n").length)}
                               autoFocus
                             />
