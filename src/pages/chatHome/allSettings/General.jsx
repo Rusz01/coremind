@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 
+
 function General() {
   const [theme, setTheme] = useState("dark");
   const [font, setFont] = useState("font1");
 
-  return (
+return (
+
     <div>
 
       <div className="flex items-center justify-between gap-3">

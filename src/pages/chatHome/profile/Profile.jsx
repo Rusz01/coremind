@@ -109,7 +109,7 @@ function Profile() {
     providerDetails[providerId] || providerDetails.default;
 
   return (
-    <div className="z-[100]">
+    <div className="z-[100] w-90 md:w-100 lg:w-110">
       <Border_Card>
         {/* Header */}
         <div className="flex items-center justify-between">
