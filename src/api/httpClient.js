@@ -1,6 +1,6 @@
 import { getAuth } from "firebase/auth";
 
-export const API_BASE = "http://127.0.0.1:8000";
+export const API_BASE = process.env.BACKEND_URL;
 
 // Build auth header using Firebase ID token
 export async function authHeader(extraHeaders = {}) {
