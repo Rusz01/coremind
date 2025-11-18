@@ -1,6 +1,6 @@
 import { getAuth } from "firebase/auth";
 
-export const API_BASE = process.env.BACKEND_URL;
+export const API_BASE = import.meta.env.VITE_BACKEND_URL;
 
 // Build auth header using Firebase ID token
 export async function authHeader(extraHeaders = {}) {
