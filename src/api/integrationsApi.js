@@ -12,18 +12,16 @@ export async function getGoogleAuthUrl() {
   return res.json();
 }
 
-// Backend exchanges ?code=...
+// Frontend exchanges ?code=...
 export async function completeGoogleOAuth(code) {
   const headers = await authHeader();
-  const res = await fetch(
-    `${API_BASE}/v1/integrations/google/callback?code=${encodeURIComponent(
-      code
-    )}`,
-    {
-      method: "POST",
-      headers,
-    }
-  );
+  headers["Content-Type"] = "application/json";
+
+  const res = await fetch(`${API_BASE}/v1/integrations/google/callback`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ code }),
+  });
 
   if (!res.ok) throw new Error("Failed to complete Google OAuth");
   return res.json();
@@ -38,7 +36,7 @@ export async function getGoogleStatus() {
   });
 
   if (!res.ok) throw new Error("Failed to load Drive status");
-  return res.json(); // {connected: boolean}
+  return res.json();
 }
 
 // Unlink Google Drive
@@ -50,5 +48,5 @@ export async function unlinkGoogleDrive() {
   });
 
   if (!res.ok) throw new Error("Failed to unlink Drive");
-  return res.json(); // {success: true}
+  return res.json();
 }
