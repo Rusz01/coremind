@@ -460,7 +460,7 @@ function ChatHome_Right({ sidePanel, setSidePanel, selectedChatId }) {
                   ) : (
                     <div className="flex gap-3 max-w-2xl group">
                       <img
-                        src="/public/logoBlack.png"
+                        src="/logoBlack.png"
                         className="w-8 h-8 rounded-full border border-white/20"
                         alt=""
                       />
