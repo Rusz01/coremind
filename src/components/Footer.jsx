@@ -1,4 +1,5 @@
 import React from 'react'
+import FooterPoweredBy from './FooterPoweredBy'
 
 function Footer() {
   return (
@@ -25,6 +26,7 @@ function Footer() {
         <p className="text-md opacity-80 tracking-wide">
           &copy; {new Date().getFullYear()} <span className="font-semibold">CoreMind</span>. All rights reserved.
         </p>
+          <FooterPoweredBy />
 
       </div>
     </div>

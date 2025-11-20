@@ -497,7 +497,7 @@ function ChatHome_Right({ sidePanel, setSidePanel, selectedChatId }) {
           {isStreaming && (
             <div className="flex gap-4 text-white animate-pulse chat-fade-in">
               <img
-                src="/public/logoBlack.png"
+                src="/logoBlack.png"
                 className="w-8 h-8 rounded-full border border-white/20"
                 alt=""
               />
