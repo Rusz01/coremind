@@ -8,6 +8,7 @@ import { FaPen } from "react-icons/fa";
 import { IoMdTimer } from "react-icons/io";
 import { HiUpload } from "react-icons/hi";
 import { RxHamburgerMenu } from "react-icons/rx";
+import { IoIosApps } from "react-icons/io";
 
 import company_logo from '../../assets/company_logos/company_logo'
 import Testimonial from './Testimonial'
@@ -45,15 +46,15 @@ function Home() {
           />
 
           <Key_Features
-            icon={IoMdTimer}
-            title="Real-Time Summarization"
-            description="Summarize and find key info instantly."
+            icon={IoIosApps}
+            title="Cross-App Intelligence"
+            description="CoreMind understands content from Drive, Notion, Outlook, and more."
           />
         </div>
 
         <h2 className='text-4xl font-medium mt-15 mb-10 text-center lg:text-start'>How It Works</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 px-4 justify-items-center">
-          <HowItWorks icon={HiUpload} title="Connect Files" />
+          <HowItWorks icon={HiUpload} title="Connect You Apps" />
           <HowItWorks icon={FaQuestion} title="Ask Questions" />
           <HowItWorks icon={RxHamburgerMenu} title="Get Smart Results" />
         </div>
